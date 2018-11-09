@@ -1,0 +1,28 @@
+func minAdjustmentCost(_ arr: [Int], _ target: Int) -> Int {
+    
+    guard arr.count > 0 else { return 0 }
+    
+    var dp = Array(repeating: Array(repeating: Int.max, count: 101),count: arr.count)
+    
+    for i in 0..<arr.count {
+        for j in 1..<101 {
+            if i == 0 {
+                dp[i][j] = abs(j-arr[i])
+            } else {
+                for k in 1..<101 {
+                    if abs(k-j) > target {
+                        continue
+                    }
+                    
+                    dp[i][j] = min(dp[i-1][k] + abs(arr[i]-j), dp[i][j])
+                }
+            }
+        }
+    }
+    
+    var res = Int.max
+    for i in 0..<101 {
+        res = min(res, dp[dp.count-1][i])
+    }
+    return res
+}
