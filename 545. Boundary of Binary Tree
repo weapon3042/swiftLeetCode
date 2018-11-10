@@ -1,0 +1,66 @@
+func boundaryOfBinaryTree(_ root: TreeNode?) -> [Int] {
+    guard let root = root else { return [Int]() }
+    
+    var leftBoundary = [Int]()
+    var rightBoundary = [Int]()
+    var leaves = [Int]()
+    
+    var node: TreeNode? = root
+    
+    if let _ = node?.left {
+        while node != nil {
+            leftBoundary.append(node!.val)
+            if let left = node?.left{
+                node = left
+            } else if let right = node?.right {
+                node = right
+            } else {
+                break
+            }
+        }
+    } else {
+        leftBoundary.append(root.val)
+    }
+    
+    node = root
+    
+    if let _ = node?.right {
+        while node != nil {
+            rightBoundary.append(node!.val)
+            
+            if let right = node?.right  {
+                node = right
+            } else if let left = node?.left {
+                node = left
+            } else {
+                break
+            }
+        }
+    } else {
+        rightBoundary.append(root.val)
+    }
+
+    
+    findLeaves(root, &leaves)
+    if leaves.count > 0 {
+        leaves.removeFirst()
+    }
+    if leaves.count > 0 {
+        leaves.removeLast()
+    }
+    leaves.removeLast()
+    rightBoundary.removeFirst()
+    return leftBoundary + leaves + rightBoundary.reversed()
+}
+
+private func findLeaves(_ root: TreeNode?, _ leaves: inout [Int]) {
+    guard let root = root else { return }
+    
+    if let left = root.left {
+        findLeaves(left, &leaves)
+    } else if let right = root.right {
+        findLeaves(right, &leaves)
+    } else {
+        leaves.append(root.val)
+    }
+}
