@@ -1,0 +1,11 @@
+func searchBST(_ root: TreeNode?, _ val: Int) -> TreeNode? {
+    guard let root = root else { return nil }
+    
+    if val > root.val {
+        return searchBST(root.right, val)
+    } else if val == root.val {
+        return root
+    } else {
+        return searchBST(root.left, val)
+    }
+}
