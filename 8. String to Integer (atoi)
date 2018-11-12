@@ -1,0 +1,41 @@
+func myAtoi(_ str: String) -> Int {
+    var chars = Array(str)
+    var i = 0
+    
+    while i < chars.count, chars[i] == " "  {
+        i += 1
+    }
+    
+    if i == chars.count { return 0 }
+    chars = Array(chars[i..<chars.count])
+    var flag = true
+    var index = 0
+    
+    if let first = chars.first {
+        if first == "+" {
+            flag = true
+            index += 1
+        } else if first == "-" {
+            flag = false
+            index += 1
+        } else if Int("\(first)") == nil {
+            return 0
+        }
+    }
+    
+    var res: Double = 0
+    for i in index..<chars.count {
+        if let curr = Int("\(chars[i])") {
+            res = res * 10 + Double(curr)
+        } else {
+            break
+        }
+    }
+    
+    if flag {
+        return res > Double(Int32.max) ? Int(Int32.max) : Int(res)
+    } else {
+        return res > Double(Int32.max) ? Int(Int32.min) : Int(res) * (-1)
+    }
+    
+}
