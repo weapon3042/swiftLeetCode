@@ -1,0 +1,12 @@
+func maxSubArray(_ nums: [Int]) -> Int {
+    guard nums.count > 0 else { return -1 }
+    var sum = 0, minV = 0, res = Int.min
+    
+    for i in 0..<nums.count {
+        sum += nums[i]
+        res = max(res, sum-minV)
+        minV = min(sum, minV)
+    }
+    
+    return res
+}
