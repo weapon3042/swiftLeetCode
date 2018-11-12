@@ -1,0 +1,34 @@
+func search(_ nums:[Int], _ target: Int) -> Int {
+
+    guard nums.count > 0 else { return -1 }
+    
+    var left = 0, right = nums.count - 1
+    
+    while left + 1 < right {
+        let mid = (left + right) / 2
+        
+        if nums[mid] < nums[right] {
+            if target >= nums[mid], target <= nums[right] {
+                left = mid
+            } else {
+                right = mid
+            }
+        } else if nums[mid] > nums[right] {
+            if target >= nums[left], target <= nums[mid] {
+                right = mid
+            } else {
+                left = mid
+            }
+        } else {
+            return mid
+        }
+    }
+    
+    if nums[right] == target {
+        return right
+    } else if nums[left] == target {
+        return left
+    } else {
+        return -1
+    }
+}
