@@ -1,0 +1,43 @@
+func findMode(_ root: TreeNode?) -> [Int] {
+    var list = [Int]()
+    inOrderList(root, &list)
+    
+    guard list.count > 1 else {
+        return list
+    }
+    
+    var res = [Int]()
+    var count = 1
+    var maxCount = 1
+    
+    for i in 0..<list.count - 1 {
+        if list[i] == list[i+1] {
+            count += 1
+        }
+        
+        if list[i] != list[i+1] || i == list.count - 2 {
+            if count == maxCount {
+                res.append(list[i])
+            } else if count > maxCount {
+                res.removeAll()
+                res.append(list[i])
+                maxCount = count
+            }
+            count = 1
+        }
+    }
+    
+    if maxCount == 1 {
+        res.append(list.last!)
+    }
+    
+    return res
+}
+
+private func inOrderList(_ root: TreeNode?, _ list: inout [Int]) {
+    guard let root = root else { return }
+    
+    inOrderList(root.left, &list)
+    list.append(root.val)
+    inOrderList(root.right, &list)
+}
