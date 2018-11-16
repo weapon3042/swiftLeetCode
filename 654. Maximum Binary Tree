@@ -1,0 +1,25 @@
+func constructMaximumBinaryTree(_ nums: [Int]) -> TreeNode? {
+    guard nums.count > 0 else {
+        return nil
+    }
+    
+    var max = 0
+    
+    for i in 0..<nums.count {
+        if nums[i] > nums[max] {
+            max = i
+        }
+    }
+    
+    let root = TreeNode(nums[max])
+    if max > 0 {
+        root.left = constructMaximumBinaryTree(Array(nums[0..<max]))
+    }
+    
+    if max < nums.count - 1 {
+        root.right = constructMaximumBinaryTree(Array(nums[(max+1)..<nums.count]))
+    }
+    
+    
+    return root
+}
