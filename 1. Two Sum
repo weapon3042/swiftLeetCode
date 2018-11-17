@@ -1,0 +1,15 @@
+    func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
+    guard nums.count > 1 else { return [Int]() }
+    
+    var map = [Int: Int]()
+    
+    for i in 0..<nums.count {
+        if let index = map[target-nums[i]] {
+            return [index, i]
+        } else {
+            map[nums[i]] = i
+        }
+    }
+    
+    return [Int]()
+    }
