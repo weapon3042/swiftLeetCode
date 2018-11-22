@@ -1,0 +1,30 @@
+func addTwoNumbers(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
+    if l1 == nil {
+        return l2
+    } else if l2 == nil {
+        return l1
+    }
+    
+    var count = 0, l1 = l1, l2 = l2
+    
+    let dummy = ListNode(0)
+    var l3: ListNode? = dummy
+    
+    while l1 != nil || l2 != nil || count > 0 {
+        if l1 != nil {
+            count += l1!.val
+            l1 = l1?.next
+        }
+        
+        if l2 != nil {
+            count += l2!.val
+            l2 = l2?.next
+        }
+        
+        l3?.next = ListNode(count%10)
+        l3 = l3?.next
+        count = count/10
+    }
+    
+    return dummy.next
+}
