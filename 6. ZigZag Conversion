@@ -1,0 +1,31 @@
+func convert(_ s: String, _ numRows: Int) -> String {
+    guard numRows > 1 else {
+        return s
+    }
+    
+    let count = s.count
+    var res = [Character]()
+    let chars = Array(s)
+    
+    for row in 0..<numRows {
+        var step = 0
+        
+        if row == 0 || row == numRows-1 {
+            step = (numRows - 1) * 2
+        } else {
+            step = (numRows - 1 - row) * 2
+        }
+        
+        var index = row
+        
+        while index < count {
+            res.append(chars[index])
+            index += step
+            if row != 0 && row != numRows - 1 {
+                step = (numRows - 1) * 2 - step
+            }
+        }
+    }
+    
+    return String(res)
+}
