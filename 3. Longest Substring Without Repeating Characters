@@ -1,0 +1,24 @@
+func lengthOfLongestSubstring(_ s: String) -> Int {
+    guard s.count > 0 else {
+        return 0
+    }
+    
+    let chars = Array(s)
+    
+    var i = 0, j = 0, res = 1
+    
+    var map = [Character: Int]()
+    
+    while j < chars.count {
+        if let index = map[chars[j]], index >= i {
+            i = index + 1
+        } else {
+            res = max(res, j-i+1)
+        }
+        
+        map[chars[j]] = j
+        j += 1
+    }
+    
+    return res
+}
