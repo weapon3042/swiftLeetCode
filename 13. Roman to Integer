@@ -1,0 +1,94 @@
+func romanToInt(_ s: String) -> Int {
+    guard s.count > 0 else {
+        return 0
+    }
+    
+    var res = 0, i = 0
+    var chars = Array(s)
+    
+    while i < chars.count {
+        
+        switch chars[i] {
+        case Character("I"):
+            
+            if i < chars.count - 1  {
+                
+                if chars[i+1] == Character("V") {
+                    res += 4
+                    i += 2
+                } else if chars[i+1] == Character("X") {
+                    res += 9
+                    i += 2
+                } else {
+                    res += 1
+                    i += 1
+                }
+                
+            } else {
+                res += 1
+                i += 1
+            }
+            
+        case Character("V"):
+            res += 5
+            i += 1
+            
+        case Character("X"):
+            if i < chars.count - 1 {
+                
+                if chars[i+1] == Character("L") {
+                    res += 40
+                    i += 2
+                } else if chars[i+1] == Character("C") {
+                    res += 90
+                    i += 2
+                } else {
+                    res += 10
+                    i += 1
+                }
+                
+            } else {
+                res += 10
+                i += 1
+            }
+            
+        case Character("L"):
+            res += 50
+            i += 1
+            
+        case Character("C"):
+            if i < chars.count - 1 {
+                
+                if chars[i+1] == Character("D") {
+                    res += 400
+                    i += 2
+                } else if chars[i+1] == Character("M") {
+                    res += 900
+                    i += 2
+                } else {
+                    res += 100
+                    i += 1
+                }
+            } else {
+                res += 100
+                i += 1
+            }
+            
+        case Character("D"):
+            res += 500
+            i += 1
+            
+        case Character("M"):
+            res += 1000
+            i += 1
+            
+        default:
+            i += 1
+            break
+            
+        }
+
+    }
+    
+    return res
+}
