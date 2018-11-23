@@ -1,0 +1,22 @@
+func reverse(_ x: Int) -> Int {
+    if x == 0 { return x }
+    
+    var sign = true, x = x, res: Double = 0
+    
+    if x < 0 {
+        sign = false
+        x = -x
+    }
+    
+    while x > 0 {
+        res = res * 10 + Double(x%10)
+        x /= 10
+    }
+    
+    if res > Double(Int32.max) { return 0 }
+    if sign == false {
+        res = -res
+    }
+    
+    return Int(res)
+}
