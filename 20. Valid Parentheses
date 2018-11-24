@@ -1,0 +1,23 @@
+func isValid(_ s: String) -> Bool {
+    guard s.count > 0 else { return true }
+
+    let map = [Character("("): Character(")"),
+               Character("["): Character("]"),
+               Character("{"): Character("}")]
+    
+    var stack = [Character]()
+    
+    for c in s {
+        if map.keys.contains(c) {
+            stack.append(c)
+        } else if stack.isEmpty {
+            return false
+        } else {
+            if map[stack.removeLast()] != c {
+                return false
+            }
+        }
+    }
+    
+    return stack.count == 0
+}
