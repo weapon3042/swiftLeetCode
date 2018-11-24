@@ -1,0 +1,30 @@
+func removeNthFromEnd(_ head: ListNode?, _ n: Int) -> ListNode? {
+    guard let head = head else { return nil }
+    guard n > 0 else { return head }
+    var node: ListNode? = head
+    var count = 0
+    
+    while let _ = node {
+        node = node?.next
+        count += 1
+    }
+    
+    node = head
+    
+    if n == count {
+        let nextNode = node?.next
+        node?.next = nil
+        return nextNode
+    }
+    
+    while let _ = node {
+        count -= 1
+        if count == n {
+            node?.next = node?.next?.next
+        }
+        
+        node = node?.next
+    }
+    
+    return head
+}
