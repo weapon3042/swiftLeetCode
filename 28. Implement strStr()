@@ -1,0 +1,35 @@
+func strStr(_ haystack: String, _ needle: String) -> Int {
+    guard needle.count > 0 else { return 0 }
+    
+    if needle.count > haystack.count { return -1 }
+    
+    var i = 0, j = 0, k = 0
+    
+    var chars = Array(haystack)
+    var nchars = Array(needle)
+    
+    while i < chars.count {
+        if chars[i] == nchars[0], nchars.count <= chars.count-i {
+            j = 0
+            k = i
+            while k < chars.count, j < nchars.count {
+                if nchars[j] == chars[k] {
+                    if j == nchars.count - 1 {
+                        return i
+                    } else {
+                        j += 1
+                        k += 1
+                    }
+                    
+                } else {
+                    break
+                }
+            }
+        }
+        
+        i += 1
+        
+    }
+    
+    return -1
+}
