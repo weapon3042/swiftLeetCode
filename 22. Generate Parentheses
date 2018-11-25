@@ -1,0 +1,25 @@
+func generateParenthesis(_ n: Int) -> [String] {
+    guard n > 0 else { return [String]() }
+    
+    var res = [String]()
+    dfs(n, n, 0, "", &res)
+    
+    return res
+}
+
+private func dfs(_ leftCount: Int, _ rightCount: Int, _ totalCount: Int, _ list: String, _ res: inout [String]) {
+    if leftCount == 0, rightCount == 0 {
+        if totalCount == 0 {
+            res.append(list)
+        }
+        return
+    }
+    
+    if totalCount < 0 || leftCount < 0 || rightCount < 0 {
+        return
+    }
+    
+    dfs(leftCount-1, rightCount, totalCount+1, list+"(", &res)
+    
+    dfs(leftCount, rightCount-1, totalCount-1, list+")", &res)
+}
