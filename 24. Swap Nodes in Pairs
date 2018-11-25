@@ -1,0 +1,19 @@
+func swapPairs(_ head: ListNode?) -> ListNode? {
+    guard let _ = head else { return nil }
+    
+    var head = head
+    let dummy = ListNode(0)
+    var node = dummy
+    
+    while head?.next != nil {
+        let nextNode = head?.next?.next
+        node.next = head?.next
+        node.next!.next = head
+        head = nextNode
+        node = node.next!.next!
+    }
+    
+    node.next = head
+    
+    return dummy.next
+}
