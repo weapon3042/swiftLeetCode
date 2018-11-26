@@ -1,0 +1,52 @@
+func isValidSudoku(_ board: [[Character]]) -> Bool {
+    
+    var set = Set<Character>()
+    
+    for i in 0..<board.count {
+        set.removeAll()
+        
+        for j in 0..<board[i].count {
+            if board[i][j] < Character("0") || board[i][j] > Character("9") { continue }
+            
+            if set.contains(board[i][j]) {
+                return false
+            }
+            
+            set.insert(board[i][j])
+        }
+    }
+    
+    for i in 0..<board[0].count {
+        set.removeAll()
+        
+        for j in 0..<board.count {
+            if board[j][i] < Character("0") || board[j][i] > Character("9") { continue }
+
+            if set.contains(board[j][i]) {
+                return false
+            }
+            
+            set.insert(board[j][i])
+        }
+    }
+    
+
+    for k in 0..<9 {
+        set.removeAll()
+        
+        for i in k/3*3..<k/3*3+3 {
+            for j in k%3*3..<k%3*3+3 {
+                if board[i][j] < Character("0") || board[i][j] > Character("9") { continue }
+
+                if set.contains(board[i][j]) {
+                    return false
+                }
+                
+                set.insert(board[i][j])
+            }
+        }
+    }
+    
+    
+    return true
+}
