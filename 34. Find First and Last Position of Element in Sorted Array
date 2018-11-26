@@ -1,0 +1,57 @@
+func searchRange(_ nums:[Int], _ target: Int) -> [Int] {
+    guard nums.count > 0 else {
+        return [Int]()
+    }
+    
+    var lower = -1, higher = -1
+    var left = 0, right = nums.count - 1
+    
+    while left + 1 < right {
+        let mid = (left + right)/2
+        
+        if nums[mid] >= target {
+            right = mid
+        } else {
+            left = mid
+        }
+    }
+    
+    if nums[left] == target {
+        lower = left
+    } else if nums[left] < target {
+        if nums[right] == target {
+            lower = right
+        } else {
+            return [-1, -1]
+        }
+    } else {
+        return [-1, -1]
+    }
+    
+    left = 0
+    right = nums.count - 1
+
+    while left + 1 < right {
+        let mid = (left + right)/2
+        
+        if nums[mid] <= target {
+            left = mid
+        } else {
+            right = mid
+        }
+    }
+    
+    if nums[right] == target {
+        higher = right
+    } else if nums[right] > target {
+        if nums[left] == target {
+            higher = left
+        } else {
+            return [-1, -1]
+        }
+    } else {
+        return [-1, -1]
+    }
+
+    return [lower, higher]
+}
