@@ -1,0 +1,29 @@
+func permuteUnique(_ nums: [Int]) -> [[Int]] {
+    guard nums.count > 0 else { return [[Int]]() }
+    
+    let visit = Array(repeating: false, count: nums.count)
+    
+    var res = [[Int]]()
+    dfs(nums.sorted(), [Int](), visit, &res)
+    
+    return res
+}
+
+private func dfs(_ nums: [Int], _ list: [Int], _ visit: [Bool], _ res: inout [[Int]]) {
+    if list.count == nums.count {
+        res.append(list)
+        return
+    }
+    
+    var list = list, visit = visit
+    for i in 0..<nums.count {
+        if visit[i] == true { continue }
+        if i > 0, nums[i] == nums[i-1], visit[i-1] == false { continue }
+        
+        visit[i] = true
+        list.append(nums[i])
+        dfs(nums, list, visit, &res)
+        list.removeLast()
+        visit[i] = false
+    }
+}
