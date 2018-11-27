@@ -1,0 +1,28 @@
+func permute(_ nums: [Int]) -> [[Int]] {
+    guard nums.count > 0 else { return [[Int]]() }
+    
+    var visit = Array(repeating: false, count: nums.count)
+    
+    var res = [[Int]]()
+    dfs(nums, [Int](), &visit, &res)
+    
+    return res
+}
+
+private func dfs(_ nums: [Int], _ list: [Int], _ visit: inout [Bool], _ res: inout [[Int]]) {
+    if list.count == nums.count {
+        res.append(list)
+        return
+    }
+    
+    var list = list
+    for i in 0..<nums.count {
+        if !visit[i] {
+            visit[i] = true
+            list.append(nums[i])
+            dfs(nums, list, &visit, &res)
+            visit[i] = false
+            list.removeLast()
+        }
+    }
+}
