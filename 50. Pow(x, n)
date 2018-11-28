@@ -1,0 +1,27 @@
+func myPow(_ x: Double, _ n: Int) -> Double {
+    var x = x, n = n
+    
+    if x == 0 { return 0 }
+    
+    var sign = 1.0
+    
+    if x < 0 {
+        sign = (n%2 == 1) ? -1 : 1
+        x = -x
+    }
+    
+    if n == 0 { return 1 }
+    
+    
+    if n < 0 {
+        x = 1/x
+        n = -n
+    }
+    
+    let v = myPow(x, n/2)
+    if n%2 == 0 {
+        return v * v
+    } else {
+        return v * v * sign * x
+    }
+}
