@@ -1,0 +1,35 @@
+func merge(_ intervals: [Interval]) -> [Interval] {
+    guard intervals.count > 0 else {
+        return [Interval]()
+    }
+    
+    let intervals = intervals.sorted {
+        if $0.start == $1.start {
+            return $0.end < $1.end
+        }
+        return $0.start < $1.start
+    }
+    
+    var prev: Interval? = nil
+    var res = [Interval]()
+    
+    for i in 0..<intervals.count {
+        if let prevInterval = prev {
+            if intervals[i].start > prevInterval.end {
+                res.append(prevInterval)
+                prev = intervals[i]
+            } else {
+                prev?.end = max(prevInterval.end, intervals[i].end)
+            }
+
+        } else {
+            prev = intervals[i]
+        }
+    }
+    
+    if let prevInterval = prev {
+        res.append(prevInterval)
+    }
+    
+    return res
+}
