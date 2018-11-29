@@ -1,0 +1,15 @@
+func canJump(_ nums: [Int]) -> Bool {
+    guard nums.count > 0 else {
+        return true
+    }
+    
+    var steps = nums[0]
+    
+    for i in 1..<nums.count {
+        if steps < 1 { return false }
+        steps = max(steps-1, nums[i])
+        if steps >= nums.count - i - 1 { return true }
+    }
+    
+    return true
+}
