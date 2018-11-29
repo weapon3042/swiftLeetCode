@@ -1,0 +1,18 @@
+func groupAnagrams(_ sts: [String]) -> [[String]] {
+    guard  sts.count > 0 else {
+        return [[String]]()
+    }
+    
+    var map = [String: [String]]()
+    
+    for st in sts {
+        let key = String(st.sorted())
+        if let _ = map[key] {
+            map[key]!.append(st)
+        } else {
+            map[key] = [st]
+        }
+    }
+    
+    return map.map { $1 }
+}
