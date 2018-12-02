@@ -1,0 +1,53 @@
+func setZeroes(_ matrix: inout [[Int]]) {
+    guard matrix.count > 0, matrix[0].count > 0 else {
+        return
+    }
+    
+    let row = matrix.count
+    let col = matrix[0].count
+    var firstRowZero = false
+    var firstColZero = false
+    
+    for i in 0..<col {
+        if matrix[0][i] == 0 {
+            firstRowZero = true
+            break
+        }
+    }
+    
+    for j in 0..<row {
+        if matrix[j][0] == 0 {
+            firstColZero = true
+            break
+        }
+    }
+    
+    for i in 1..<row {
+        for j in 1..<col {
+            if matrix[i][j] == 0 {
+                matrix[0][j] = 0
+                matrix[i][0] = 0
+            }
+        }
+    }
+    
+    for i in 1..<row {
+        for j in 1..<col {
+            if matrix[0][j] == 0 || matrix[i][0] == 0 {
+                matrix[i][j] = 0
+            }
+        }
+    }
+    
+    if firstRowZero == true {
+        for i in 0..<col {
+            matrix[0][i] = 0
+        }
+    }
+    
+    if firstColZero == true {
+        for j in 0..<row {
+            matrix[j][0] = 0
+        }
+    }
+}
