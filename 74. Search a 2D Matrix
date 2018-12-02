@@ -1,0 +1,22 @@
+func searchMatrix(_ matrix: [[Int]], _ target: Int) -> Bool {
+    guard matrix.count > 0, matrix[0].count > 0 else {
+        return false
+    }
+    
+    let row = matrix.count
+    let col = matrix[0].count
+    
+    var i = row - 1, j = 0
+    
+    while i >= 0, j < col {
+        if matrix[i][j] == target {
+            return true
+        } else if matrix[i][j] > target {
+            i -= 1
+        } else {
+            j += 1
+        }
+    }
+    
+    return false
+}
