@@ -1,0 +1,24 @@
+func subsets(_ nums: [Int]) -> [[Int]] {
+    
+    guard nums.count > 0 else {
+        return [[Int]]()
+    }
+    
+    var res = [[Int]](), list = [Int]()
+    
+    dfs(nums, 0, &list, &res)
+    
+    return res
+}
+
+private func dfs(_ nums: [Int], _ index: Int, _ list: inout [Int], _ res: inout [[Int]]) {
+    
+    res.append(list)
+    
+    for i in index..<nums.count {
+        list.append(nums[i])
+        dfs(nums, i+1, &list, &res)
+        list.removeLast()
+    }
+    
+}
