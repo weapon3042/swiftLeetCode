@@ -1,0 +1,51 @@
+let dx = [-1, 1, 0, 0]
+let dy = [0, 0, -1, 1]
+
+func exist(_ board: [[Character]], _ word: String) -> Bool {
+    guard board.count > 0, word.count > 0 else {
+        return false
+    }
+    
+    let chars = Array(word)
+    var visit = Array(repeating:Array(repeating: false, count: board[0].count), count: board.count)
+    
+    for i in 0..<board.count {
+        for j in 0..<board[0].count {
+            if board[i][j] == chars[0] {
+                var res = false
+                dfs(board, word, 0, i, j, &visit, &res)
+                
+                if res == true { return true }
+            }
+        }
+    }
+    return false
+}
+
+private func dfs(_ board: [[Character]], _ word: String, _ index: Int, _ x: Int, _ y: Int, _ visit: inout [[Bool]], _ res: inout Bool) {
+    if res == true { return }
+    
+    if index == word.count - 1 {
+        res = true
+        return
+    }
+    
+    visit[x][y] = true
+    for k in 0..<4 {
+        let i = x + dx[k]
+        let j = y + dy[k]
+        
+        if !isValid(x: i, y: j, board: board) { continue }
+        
+        if visit[i][j] == true { continue }
+        
+        if board[i][j] == word[word.index(word.startIndex, offsetBy: index+1)] {
+            dfs(board, word, index+1, i, j, &visit, &res)
+        }
+    }
+    visit[x][y] = false
+}
+
+private func isValid(x: Int, y: Int, board: [[Character]]) -> Bool {
+    return x >= 0 && x < board.count && y >= 0 && y < board[0].count
+}
