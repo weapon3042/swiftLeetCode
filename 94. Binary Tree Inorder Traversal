@@ -1,0 +1,22 @@
+func inorderTRAVERSAL(_ root: TreeNode?) -> [Int] {
+    guard let root = root else {
+        return [Int]()
+    }
+    
+    var queue = [TreeNode]()
+    var node: TreeNode? = root
+    var res = [Int]()
+    
+    while node != nil || !queue.isEmpty {
+        if node != nil {
+            queue.append(node!)
+            node = node?.left
+        } else {
+            let curr = queue.removeLast()
+            res.append(curr.val)
+
+            node = curr.right
+        }
+    }
+    return res
+}
