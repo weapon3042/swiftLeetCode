@@ -1,0 +1,15 @@
+func isValidBST(_ root: TreeNode?) -> Bool {
+    return validate(root, Int.min, Int.max)
+}
+
+private func validate(_ root: TreeNode?, _ lower: Int, _ upper: Int) -> Bool {
+    guard let root = root else {
+        return true
+    }
+    
+    if root.val >= upper || root.val <= lower {
+        return false
+    }
+    
+    return validate(root.left, lower, root.val) && validate(root.right, root.val, upper)
+}
