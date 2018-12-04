@@ -1,0 +1,21 @@
+func isSymmetric(_ root: TreeNode?) -> Bool {
+    guard let root = root else {
+        return true
+    }
+    
+    return mirrorEqual(root.left, root.right)
+}
+
+private func mirrorEqual(_ left: TreeNode?, _ right: TreeNode?) -> Bool {
+    if left == nil, right == nil {
+        return true
+    } else if left == nil || right == nil {
+        return false
+    }
+    
+    if left?.val != right?.val {
+        return false
+    }
+    
+    return mirrorEqual(left?.right, right?.left) && mirrorEqual(left?.left, right?.right)
+}
