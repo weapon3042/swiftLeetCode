@@ -1,34 +1,41 @@
 func reverseBetween(_ head: ListNode?, _ m: Int, _ n: Int) -> ListNode? {
-    var dummy = ListNode(0)
-    var node: ListNode? = dummy
-    node?.next = head
+    guard let root = head else {
+        return head
+    }
     
-    var count = 0
-    var prev: ListNode? = nil
     var start: ListNode? = nil
-    var end: ListNode? = nil
-
-    while node?.next != nil {
-        count += 1
-
-        if count == m {
+    var prev: ListNode? = nil, i = 0
+    
+    let dummy = ListNode(0)
+    var  node: ListNode? = dummy
+    node?.next = root
+    
+    while let _ = node {
+        if i == m {
+            start = prev
             prev = node
-            start = node
-            end = node?.next
             node = node?.next
-        } else if count > m, count <= n + 1{
-            let next = node?.next
+        } else if i > m, i <= n {
+            let nextNode = node?.next
             node?.next = prev
             prev = node
-            node = next
-        } else if count == n + 2 {
+            node = nextNode
+        } else if i == n + 1 {
+            start?.next?.next = node
             start?.next = prev
-            end?.next = node
             node = node?.next
         } else {
+            prev = node
             node = node?.next
         }
         
+        i += 1
+    }
+    
+    if i == n + 1 {
+        start?.next?.next = node
+        start?.next = prev
+        node = node?.next
     }
     
     return dummy.next
