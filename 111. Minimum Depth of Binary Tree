@@ -1,0 +1,23 @@
+func minDepth(_ root: TreeNode?) -> Int {
+    guard let node = root else {
+        return 0
+    }
+    
+    return depth(node)
+}
+
+private func depth(_ node: TreeNode) -> Int {
+    if node.left == nil, node.right == nil { return 1 }
+    
+    var res = Int.max
+    if let left = node.left {
+        res = min(depth(left)+1, res)
+    }
+    
+    if let right = node.right {
+        res = min(depth(right)+1, res)
+    }
+    
+    return res
+}
+
