@@ -1,0 +1,42 @@
+func zigzagLevelOrder(_ root: TreeNode?) -> [[Int]] {
+    guard let node = root else {
+        return [[Int]]()
+    }
+    
+    var queue = [TreeNode]()
+    var res = [[Int]]()
+    var order = true
+    
+    queue.append(node)
+    
+    while !queue.isEmpty {
+        let len = queue.count
+        var level = [Int]()
+        
+        for _ in 0..<len {
+            let curr = queue.removeFirst()
+            
+            if order {
+                level.append(curr.val)
+                
+            } else {
+                level.insert(curr.val, at: 0)
+                
+            }
+            
+            if let left = curr.left {
+                queue.append(left)
+            }
+            
+            if let right = curr.right {
+                queue.append(right)
+            }
+        }
+        
+        res.append(level)
+        
+        order = !order
+    }
+    
+    return res
+}
