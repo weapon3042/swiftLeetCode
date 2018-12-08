@@ -1,0 +1,22 @@
+func isBalanced(_ root: TreeNode?) -> Bool {
+    return getHeight(root).1
+    
+}
+
+private func getHeight(_ node: TreeNode?) -> (Int, Bool) {
+    guard let node = node else {
+        return (0, true)
+    }
+    
+    let leftHeigh = getHeight(node.left)
+    let rightHeight = getHeight(node.right)
+    
+    var isBalanced = true
+    
+    if leftHeigh.1 == false || rightHeight.1 == false || abs(leftHeigh.0 - rightHeight.0) > 1 {
+        isBalanced = false
+    }
+    
+    return (max(leftHeigh.0, rightHeight.0) + 1, isBalanced)
+}
+
