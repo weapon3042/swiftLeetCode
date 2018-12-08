@@ -1,0 +1,34 @@
+func levelOrder(_ root: TreeNode?) -> [[Int]] {
+    guard let node = root else {
+        return [[Int]]()
+    }
+    
+    var queue = [TreeNode]()
+    var res = [[Int]]()
+    
+    queue.append(node)
+    
+    while !queue.isEmpty {
+        let len = queue.count
+        var level = [Int]()
+        
+        for i in 0..<len {
+            let curr = queue.removeFirst()
+            
+            level.append(curr.val)
+            
+            if let left = curr.left {
+                queue.append(left)
+            }
+            
+            if let right = curr.right {
+                queue.append(right)
+            }
+        }
+        
+        res.append(level)
+    }
+    
+    return res
+}
+
