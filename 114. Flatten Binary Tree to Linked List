@@ -1,0 +1,30 @@
+func flatten(_ root: TreeNode?) {
+    guard let node = root else {
+        return
+    }
+    
+    let _ = helper(node)
+}
+
+private func helper(_ node: TreeNode?) -> TreeNode? {
+    guard let node = node else {
+        return nil
+    }
+    
+    if node.left == nil, node.right == nil { return node }
+    
+    let leftNode = node.left
+    let rightNode = node.right
+    let leftTail = helper(leftNode)
+    let rightTail = helper(rightNode)
+    
+    if leftNode != nil {
+        node.left = nil
+        node.right = leftNode
+        leftTail?.right = rightNode
+        leftTail?.left = nil
+    }
+    
+    return rightTail == nil ? leftTail : rightTail
+}
+
