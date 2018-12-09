@@ -1,0 +1,11 @@
+func maxProfit(_ prices: [Int]) -> Int {
+    var minPrice = Int.max
+    var res = 0
+    
+    for price in prices {
+        res = max(res, price - minPrice)
+        minPrice = min(minPrice, price)
+    }
+    
+    return res
+}
