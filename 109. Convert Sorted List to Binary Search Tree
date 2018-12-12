@@ -1,0 +1,26 @@
+func sortedListToBST(_ head: ListNode?) -> TreeNode? {
+    guard let root = head else {
+        return nil
+    }
+    
+    var slow: ListNode? = head
+    var fast: ListNode? = head
+    var prev: ListNode? = nil
+    
+    while let _ = fast, let _ = fast?.next {
+        prev = slow
+        slow = slow?.next
+        fast = fast?.next?.next
+    }
+    
+    guard let _ = slow else { return nil }
+    
+    let newHead = TreeNode(slow!.val)
+    let right = slow!.next
+    prev?.next = nil
+    
+    newHead.left = prev != nil ? sortedListToBST(root) : nil
+    newHead.right = sortedListToBST(right)
+    
+    return newHead
+}
