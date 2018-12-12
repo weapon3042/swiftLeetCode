@@ -1,0 +1,16 @@
+func buildTree(_ preorder: [Int], _ inorder: [Int]) -> TreeNode? {
+    guard preorder.count > 0, inorder.count > 0 else {
+        return nil
+    }
+    
+    let root = TreeNode(preorder[0])
+    
+    guard let index = inorder.index(of: root.val) else {
+        return nil
+    }
+    
+    root.left = buildTree(Array(preorder[1..<(index+1)]), Array(inorder[0..<index]))
+    root.right = buildTree(Array(preorder[(index+1)..<preorder.count]), Array(inorder[(index+1)..<inorder.count]))
+    
+    return root
+}
