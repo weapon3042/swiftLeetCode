@@ -1,0 +1,29 @@
+func generate(_ numRows: Int) -> [[Int]] {
+    guard numRows > 0 else {
+        return [[Int]]()
+    }
+    
+    var res = [[Int]]()
+    
+    for i in 0..<numRows {
+        
+        if i == 0 {
+            res.append([1])
+            continue
+        }
+        var level = [Int]()
+        var prevLevel = res[i-1]
+        
+        for j in 0...i {
+            if j == 0 || j == i {
+                level.append(1)
+            } else {
+                level.append(prevLevel[j-1] + prevLevel[j])
+            }
+        }
+        
+        res.append(level)
+    }
+    
+    return res
+}
