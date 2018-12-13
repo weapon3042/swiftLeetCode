@@ -1,0 +1,14 @@
+func hasCycle(_ listNode: ListNode?) -> Bool {
+    
+    var slow: ListNode? = listNode
+    var fast: ListNode? = listNode
+    
+    while let _ = fast, let _ = fast?.next?.next {
+        slow = slow?.next
+        fast = fast?.next?.next
+        
+        if slow === fast { return true }
+    }
+    
+    return false
+}
