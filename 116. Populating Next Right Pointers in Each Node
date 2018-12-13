@@ -1,0 +1,18 @@
+    public void connect(TreeLinkNode root) {
+        if (root == null) {
+            return;
+        }
+        crossConnect(root.left, root.right);
+    }
+    
+    private void crossConnect(TreeLinkNode n1, TreeLinkNode n2) {
+        if (n1 == null || n2 == null) {
+            return;
+        }
+        
+        n1.next = n2;
+        
+        crossConnect(n1.right, n2.left);
+        crossConnect(n1.left, n1.right);
+        crossConnect(n2.left, n2.right);
+    }
