@@ -1,0 +1,48 @@
+class WordNode: Hashable {
+    static func == (lhs: WordNode, rhs: WordNode) -> Bool {
+        return lhs.step == rhs.step && lhs.word == rhs.word
+    }
+    
+    var word: String
+    var step: Int
+    
+    init(_ word: String, _ step: Int) {
+        self.word = word
+        self.step = step
+    }
+    
+    public var hashValue: Int { return self.word.hashValue }
+}
+
+func ladderLength(_ beginWord: String, _ endWord: String, _ wordList: [String]) -> Int {
+    
+    var dict = Set<String>(wordList)
+    var queue = [WordNode]()
+    queue.append(WordNode(beginWord, 1))
+    
+    while !queue.isEmpty {
+        let curr = queue.removeFirst()
+        
+        if curr.word == endWord {
+            return curr.step
+        }
+        
+        var chars = Array(curr.word)
+        for i in 0..<chars.count {
+            let char = chars[i]
+            for character in "abcdefghijklmnopqrstuvwxyz" {
+                if character == char { continue }
+                
+                chars[i] = character
+                
+                let newWord = String(chars)
+                if dict.contains(newWord) {
+                    queue.append(WordNode(newWord, curr.step + 1))
+                    dict.remove(newWord)
+                }
+                chars[i] = char
+            }
+        }
+    }
+    return 0
+}
