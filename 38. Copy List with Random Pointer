@@ -1,0 +1,55 @@
+    public RandomListNode copyRandomList(RandomListNode head) {
+        if (head == null) {
+            return null;
+        }
+        
+        RandomListNode node = head;
+        
+        while (node != null) {
+            RandomListNode nextNode = node.next;
+            node.next = new RandomListNode(node.label);
+            node.next.next = nextNode;
+            node = nextNode;
+        }
+        
+        node = head;
+                
+        while (node != null) {
+            if (node.next != null) {
+            if (node.random!= null) {       
+                node.next.random = node.random.next;
+            } else {
+                node.next.random = null;
+            }
+            }
+           
+            if (node.next != null) {
+                node = node.next.next;
+            } else {
+                node = node.next;
+            }
+        }
+        
+        node = head;
+        RandomListNode newHead = node.next;
+        RandomListNode curr = newHead;
+        
+        while (node != null && curr != null) {
+            if (node.next!= null) {
+                node.next = node.next.next;
+            } else {
+                node.next = node.next;
+            }
+            
+            if (curr.next != null) {
+                curr.next = curr.next.next;
+            } else {
+                curr.next = curr.next;
+            }
+            
+            node = node.next;
+            curr= curr.next;
+        }
+                    
+        return newHead;
+    }
