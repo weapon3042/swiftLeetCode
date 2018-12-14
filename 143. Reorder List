@@ -1,0 +1,34 @@
+func reorderList(_ head: ListNode?) {
+    guard let node = head else {
+        return
+    }
+    
+    var slow: ListNode? = node
+    var fast: ListNode? = node
+    
+    while let _ = fast, let _ = fast?.next {
+        slow = slow?.next
+        fast = fast?.next?.next
+    }
+    
+    var curr: ListNode? = slow?.next
+    slow?.next = nil
+    
+    var prev: ListNode? = nil
+    while curr != nil {
+        let nextNode = curr?.next
+        curr?.next = prev
+        prev = curr
+        curr = nextNode
+    }
+    
+    slow = node
+    
+    while slow != nil, prev != nil {
+        let slowNext = slow?.next
+        slow?.next = prev
+        prev = prev?.next
+        slow?.next?.next = slowNext
+        slow = slowNext
+    }
+}
