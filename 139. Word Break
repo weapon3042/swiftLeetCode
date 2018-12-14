@@ -1,0 +1,30 @@
+func wordBreak(_ s: String, _ wordDict: [String]) -> Bool {
+    guard s.count > 0, wordDict.count > 0 else {
+        return false
+    }
+    
+    let chars = Array(s)
+    let set = Set<String>(wordDict)
+    
+    if set.contains(s) { return true }
+    
+    var maxLen = 0
+    
+    set.forEach { maxLen = max(maxLen, $0.count) }
+    
+    var dp = [Bool](repeating: false, count: s.count+1)
+    dp[0] = true
+    
+    for i in 0...s.count {
+        for j in 0..<i where i-j<=maxLen  {
+            if set.contains(String(Array(chars[j..<i]))), dp[j] == true {
+                dp[i] = true
+                break
+            }
+        }
+    }
+    
+    return dp[s.count]
+}
+
+
