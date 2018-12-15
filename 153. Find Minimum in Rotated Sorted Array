@@ -1,0 +1,24 @@
+func findMin(_ nums: [Int]) throws -> Int {
+    guard nums.count > 0 else {
+        throw Exception.InvalidInput
+    }
+    
+    var left = 0, right = nums.count - 1
+    
+    while left + 1 < right {
+        var mid = (left + right) / 2
+        
+        if nums[mid] < nums[right] {
+            if mid >= 1, nums[mid] < nums[mid-1] {
+                return nums[mid]
+            } else {
+                right = mid - 1
+            }
+        } else {
+            left = mid + 1
+        }
+    }
+    
+    return min(nums[left], nums[right])
+    
+}
