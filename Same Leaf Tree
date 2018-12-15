@@ -1,0 +1,63 @@
+struct InorderTreeIterator: IteratorProtocol {
+    typealias Element = TreeNode
+    
+    private var queue = [TreeNode]()
+    private var currNode: TreeNode?
+    
+    init(root: TreeNode) {
+        currNode = root
+    }
+    
+    func hasNext() -> Bool {
+        return currNode != nil || !queue.isEmpty
+    }
+    
+    mutating func next() -> TreeNode? {
+        while currNode != nil {
+            queue.append(currNode!)
+            currNode = currNode?.left
+        }
+        
+        let peek: TreeNode = queue.removeFirst()
+        currNode = peek.right
+            print(peek.val)
+        return peek
+    }
+}
+
+func sameLeaf(_ leftTree: TreeNode?, _ rightTree: TreeNode?) -> Bool {
+    guard let left = leftTree, let right = rightTree else {
+        return false
+    }
+
+    var iteratorLeft = InorderTreeIterator(root: left)
+    var iteratorRight = InorderTreeIterator(root: right)
+    
+    while iteratorLeft.hasNext() {
+        let nextLeftNode = iteratorLeft.next()!
+        
+        if nextLeftNode.isLeaf() {
+            var foundMatch = false
+
+            while iteratorRight.hasNext() {
+                let nextRightNode = iteratorRight.next()!
+                
+                if nextRightNode.isLeaf() {
+                    if nextRightNode.val != nextLeftNode.val {
+                        nextRightNode
+                        nextLeftNode
+                        return false
+                    } else {
+                        foundMatch = true
+                        break
+                    }
+                }
+            }
+            
+            if foundMatch == false { return false }
+        }
+        
+    }
+    
+    return true
+}
