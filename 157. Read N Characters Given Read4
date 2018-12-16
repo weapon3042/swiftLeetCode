@@ -1,0 +1,22 @@
+    public int read(char[] buf, int n) {
+        boolean lessThan4 = false;
+        int bytes = 0;
+        int ReadBytes = 0;
+        char[] buffer = new char[4];
+        
+        while (!lessThan4 && ReadBytes < n) {
+            int size = read4(buffer);
+            if (size < 4) {
+                lessThan4 = true;
+            }
+            bytes = Math.min(n-ReadBytes, size);
+            
+            for (int i=0; i<bytes; i++) {
+                buf[i+ReadBytes] = buffer[i];
+            }
+            
+            ReadBytes += bytes;
+        }
+        
+        return ReadBytes;
+    }
