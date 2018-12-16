@@ -1,0 +1,32 @@
+class TwoSum {
+    
+    private var set = Set<Int>()
+    private var map = [Int: Int]()
+    
+    /** Initialize your data structure here. */
+    init() { }
+    
+    /** Add the number to an internal data structure.. */
+    func add(_ number: Int) {
+        set.insert(number)
+        if let count = map[number] {
+            map[number] = count + 1
+        } else {
+            map[number] = 1
+        }
+    }
+    
+    /** Find if there exists any pair of numbers which sum is equal to the value. */
+    func find(_ value: Int) -> Bool {
+        for num in set {
+            if set.contains(value-num) {
+                if num == value - num, map[value-num]! == 1 {
+                    continue
+                }
+                return true
+            }
+        }
+        
+        return false
+    }
+}
