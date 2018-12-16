@@ -1,0 +1,68 @@
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+        
+        int lenA = 0;
+        
+        ListNode node = headA;
+        
+        while (node != null) {
+            node = node.next;
+            lenA++;
+        }
+        
+        int lenB = 0;
+        node = headB;
+        
+        while(node != null) {
+            node = node.next;
+            lenB++;
+        }
+        
+        if (lenA < lenB) {
+           node = headB;
+            
+            int count = 0;
+            
+            while (count < lenB-lenA) {
+                node = node.next;
+                count++;
+            }
+            
+            ListNode curr = headA;
+            
+            
+            while (node != null) {
+                if (curr == node) {
+                    return curr;
+                } else {
+                    curr = curr.next;
+                    node = node.next;
+                }
+            }
+        } else {
+           node = headA;
+            
+            int count = 0;
+            
+            while (count < lenA-lenB) {
+                node = node.next;
+                count++;
+            }
+            
+            ListNode curr = headB;
+            
+            
+            while (node != null) {
+                if (curr == node) {
+                    return curr;
+                } else {
+                    curr = curr.next;
+                    node = node.next;
+                }
+            }
+        }
+        
+        return null;
+    }
