@@ -1,0 +1,53 @@
+func isOneEditDistance(_ s: String, _ t: String) -> Bool {
+    
+    guard abs(s.count-t.count) <= 1 else {
+        return false
+    }
+    
+    var schars = Array(s)
+    var tchars = Array(t)
+    var changed = false
+    
+    if schars.count == tchars.count {
+        
+        for i in 0..<schars.count {
+            if schars[i] != tchars[i] {
+                if changed == true {
+                    return false
+                } else {
+                    changed = true
+                }
+            }
+        }
+        
+        if changed == false { return false }
+    } else {
+        
+        var i = 0, j = 0
+        changed = false
+        var worked = true
+        
+        while i < schars.count, j < tchars.count {
+            if schars[i] == tchars[j] {
+                i += 1
+                j += 1
+            } else {
+                if changed == true {
+                    worked = false
+                    break
+                } else {
+                    if schars.count > tchars.count {
+                        i += 1
+                    } else {
+                        j += 1
+                    }
+                    changed = true
+                }
+            }
+        }
+        
+        if worked == false { return false }
+    }
+    
+    return true
+}
