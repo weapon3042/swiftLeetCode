@@ -1,0 +1,60 @@
+version 1
+
+class MaxStack {
+    
+    /** initialize your data structure here. */
+    
+    var data = [Int]()
+    var maxStack = [Int]()
+    
+    init() {
+        
+    }
+    
+    func push(_ x: Int) {
+        data.append(x)
+        
+        if !maxStack.isEmpty {
+            if x < maxStack.last! {
+                maxStack.append(maxStack.last!)
+            } else {
+                maxStack.append(x)
+            }
+        } else {
+            maxStack.append(x)
+        }
+    }
+    
+    func pop() -> Int {
+        maxStack.popLast()
+        return data.popLast()!
+    }
+    
+    func top() -> Int {
+        return data.last ?? -1
+    }
+    
+    func peekMax() -> Int {
+        return maxStack.last ?? -1
+    }
+    
+    func popMax() -> Int {
+        let max = peekMax()
+        
+        var buffer = [Int]()
+        
+        while top() != max {
+            buffer.append(pop())
+        }
+        
+        pop()
+        
+        while !buffer.isEmpty {
+            push(buffer.popLast()!)
+        }
+
+        
+        return max
+    }
+}
+
