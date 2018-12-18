@@ -1,0 +1,71 @@
+class TrieNode {
+    var val: Character?
+    var children = [Character: TrieNode]()
+    var hasPrefix = false
+    
+    init(_ val: Character) {
+        self.val = val
+    }
+    
+    init() {
+        self.val = nil
+    }
+}
+
+class Trie {
+    
+    private let root: TrieNode
+    
+    /** Initialize your data structure here. */
+    init() {
+        self.root = TrieNode()
+    }
+    
+    /** Inserts a word into the trie. */
+    func insert(_ word: String) {
+        var chars = Array(word)
+        var curr: TrieNode = root
+        
+        for i in 0..<chars.count {
+            if let node = curr.children[chars[i]] {
+                curr = node
+            } else {
+                curr.children[chars[i]] = TrieNode(chars[i])
+                curr = curr.children[chars[i]]!
+            }
+            
+            if i == chars.count - 1 {
+                curr.hasPrefix = true
+            }
+        }
+    }
+    
+    /** Returns if the word is in the trie. */
+    func search(_ word: String) -> Bool {
+        return startWith(word) != nil && startWith(word)!.hasPrefix == true
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    func startsWith(_ prefix: String) -> Bool {
+        return startWith(prefix) != nil
+    }
+    
+    private func startWith(_ prefix: String) -> TrieNode? {
+        guard prefix.count > 0 else {
+            return nil
+        }
+        
+        var chars = Array(prefix)
+        var curr: TrieNode = root
+        
+        for i in 0..<chars.count {
+            if let node = curr.children[chars[i]] {
+                curr = node
+            } else {
+                return nil
+            }
+        }
+        
+        return curr
+    }
+}
