@@ -1,0 +1,39 @@
+let dx = [-1, 1, 0, 0]
+let dy = [0, 0, -1, 1]
+let land = Character("1")
+let water = Character("0")
+
+func numIslands(_ grid: [[Character]]) -> Int {
+
+    guard grid.count > 0, grid[0].count > 0 else { return 0 }
+    
+    var res = 0, grid = grid
+    for i in 0..<grid.count {
+        for j in 0..<grid[0].count {
+            if grid[i][j] == land {
+                dfs(&grid, i, j)
+                res += 1
+            }
+        }
+    }
+    
+    return res
+}
+
+private func dfs(_ grid: inout [[Character]], _ i: Int, _ j: Int) {
+    
+    grid[i][j] = Character("#")
+    
+    for m in 0..<4 {
+        let x = dx[m] + i
+        let y = dy[m] + j
+        
+        if isValid(grid, x, y), grid[x][y] == land {
+            dfs(&grid, x, y)
+        }
+    }
+}
+
+private func isValid(_ grid: [[Character]], _ i: Int, _ j: Int) -> Bool {
+    return i >= 0 && i < grid.count && j >= 0 && j < grid[0].count
+}
