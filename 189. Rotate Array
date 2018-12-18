@@ -1,0 +1,29 @@
+func rotate(_ nums: inout [Int], _ k: Int) {
+    guard nums.count > 0 else {
+        return
+    }
+    
+    let n = nums.count
+    let k = k%n
+    
+    innerRotate(&nums, 0, n-k-1)
+    innerRotate(&nums, n-k, n-1)
+    innerRotate(&nums, 0, n-1)
+}
+
+
+private func innerRotate(_ nums: inout [Int], _ i: Int, _ j: Int) {
+    guard nums.count > i, nums.count > j else {
+        return
+    }
+    
+    
+    var left = i, right = j
+    
+    while left < right {
+        nums.swapAt(left, right)
+        
+        left += 1
+        right -= 1
+    }
+}
