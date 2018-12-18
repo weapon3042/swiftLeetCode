@@ -1,0 +1,29 @@
+    public int findCelebrity(int n) {
+        if (n < 0) {
+            return -1;
+        }
+        
+        int x = 0;
+        
+        for (int y = 1; y<n; y++) {
+            if (knows(x,y)) {
+                x = y;
+            }
+        }
+        
+        for (int i = 0; i<n; i++) {
+            if (i == x) {
+                continue;
+            }
+            
+            if (knows(x, i)) {
+                return -1;
+            }
+            
+            if (!knows(i, x)) {
+                return -1;
+            }
+        }
+        
+        return x;
+    }
