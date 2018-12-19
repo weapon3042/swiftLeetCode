@@ -1,0 +1,32 @@
+func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
+    let n = nums1.count + nums2.count
+    
+    if n%2 == 0 {
+        return Double((findKth(nums1, 0, nums2, 0, n/2) + findKth(nums1, 0, nums2, 0, n/2+1)))/2.0
+    }
+    
+    return Double(findKth(nums1, 0, nums2, 0, n/2+1))
+}
+
+private func findKth(_ nums1: [Int], _ l1: Int, _ nums2: [Int], _ l2: Int, _ k: Int) -> Int {
+    
+    if l1 >= nums1.count {
+        return nums2[l2+k-1]
+    }
+    if l2 >= nums2.count {
+        return nums1[l1+k-1]
+    }
+    
+    if k == 1 {
+        return min(nums1[l1], nums2[l2])
+    }
+    
+    let val1 = l1+k/2-1 < nums1.count ? nums1[l1+k/2-1] : Int.max
+    let val2 = l2+k/2-1 < nums2.count ? nums2[l2+k/2-1] : Int.max
+    
+    if val1 < val2 {
+        return findKth(nums1, l1+k/2, nums2, l2, k-k/2)
+    } else {
+        return findKth(nums1, l1, nums2, l2+k/2, k-k/2)
+    }
+}
