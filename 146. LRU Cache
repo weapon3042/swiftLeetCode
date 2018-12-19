@@ -1,0 +1,72 @@
+class Node {
+    var val: Int
+    var key: Int
+    var next: Node?
+    var prev: Node?
+    
+    init(_ val: Int, _ key: Int) {
+        self.val = val
+        self.key = key
+    }
+}
+
+class LRUCache {
+    var head: Node
+    var tail: Node
+    let capacity: Int
+    var count = 0
+    var map = [Int: Node]()
+    
+    func get(_ key: Int) -> Int {
+        if let node = map[key] {
+            unlink(node)
+            moveToTail(node)
+            
+            return node.val
+        } else {
+            return -1
+        }
+    }
+    
+    func put(_ key: Int, _ value: Int) {
+        if let node = map[key] {
+            node.val = value
+            unlink(node)
+            moveToTail(node)
+        } else {
+            let curr = Node(value, key)
+            
+            if count < capacity {
+                count += 1
+            } else {
+                map[head.next!.key] = nil
+                head.next = head.next?.next
+                head.next?.prev = head
+            }
+            
+            moveToTail(curr)
+            map[key] = curr
+        }
+    }
+    
+    private func unlink(_ node: Node){
+        node.prev?.next = node.next
+        node.next?.prev = node.prev
+    }
+    
+    private func moveToTail(_ node: Node) {
+        node.next = tail
+        node.prev = tail.prev
+        tail.prev?.next = node
+        tail.prev = node
+    }
+    
+    init(_ capacity: Int) {
+        self.head = Node(0, -1)
+        self.tail = Node(0, -1)
+        self.head.next = tail
+        self.tail.prev = head
+        self.capacity = capacity
+    }
+}
+
