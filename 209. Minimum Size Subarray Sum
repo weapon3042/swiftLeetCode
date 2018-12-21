@@ -1,0 +1,22 @@
+  version 1  
+    
+    func minSubArrayLen(_ s: Int, _ nums: [Int]) -> Int {
+        
+        guard nums.count > 0 else { return 0 }
+        var j = 0, sum = 0, res = Int.max
+        
+        for i in 0..<nums.count {
+            sum += nums[i]
+            
+            if sum >= s {
+                while sum - nums[j] >= s {
+                    sum -= nums[j]
+                    j += 1
+                }
+                res = min(res, i-j+1)
+            }
+        }
+
+        return res == Int.max ? 0 : res
+    }  
+
