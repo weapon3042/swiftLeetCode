@@ -1,0 +1,63 @@
+class Node: Hashable {
+    static func == (lhs: Node, rhs: Node) -> Bool {
+        return lhs.val == rhs.val
+    }
+    
+    var val: Int
+    var indegree: Set<Node>
+    var outdegree: Set<Node>
+    
+    init(_ val: Int) {
+        self.val = val
+        self.indegree = Set<Node>()
+        self.outdegree = Set<Node>()
+    }
+    
+    public var hashValue: Int {
+        return val
+    }
+}
+
+
+func findOrder(_ numCourses: Int, _ prerequisites: [[Int]]) -> [Int] {
+    guard numCourses > 0 else {
+        return [Int]()
+    }
+    
+    var map = [Int: Node]()
+    var queue = [Node]()
+    var set = Set<Node>()
+    var res = [Int]()
+    
+    for num in 0..<numCourses {
+        map[num] = Node(num)
+    }
+    
+    for pair in prerequisites {
+        map[pair[0]]?.indegree.insert(map[pair[1]]!)
+        map[pair[1]]?.outdegree.insert(map[pair[0]]!)
+    }
+    
+    for (_, node) in map {
+        if node.indegree.count == 0 {
+            queue.append(node)
+            set.insert(node)
+            res.append(node.val)
+        }
+    }
+    
+    while !queue.isEmpty {
+        let curr = queue.removeFirst()
+        for node in curr.outdegree {
+            node.indegree.remove(curr)
+            
+            if node.indegree.count == 0, !set.contains(node) {
+                queue.append(node)
+                set.insert(node)
+                res.append(node.val)
+            }
+        }
+    }
+    
+    return res.count == numCourses ? res : [Int]()
+}
