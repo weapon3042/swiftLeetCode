@@ -1,0 +1,82 @@
+class Node {
+    var val: Character?
+    var map: [Character: Node]
+    var hasWord = false
+    
+    init(_ val: Character) {
+        self.val = val
+        self.map = [Character: Node]()
+    }
+    
+    init() {
+        self.val = nil
+        self.map = [Character: Node]()
+    }
+}
+
+class WordDictionary {
+    
+    public let root: Node
+    /** Initialize your data structure here. */
+    init() {
+        self.root = Node()
+    }
+    
+    /** Adds a word into the data structure. */
+    func addWord(_ word: String) {
+        let chars = Array(word)
+        var curr  = root
+        
+        for i in 0..<chars.count {
+            if let node = curr.map[chars[i]] {
+                curr = node
+            } else {
+                let node = Node(chars[i])
+                curr.map[chars[i]] = node
+                curr = node
+            }
+        }
+        
+        curr.hasWord = true
+    }
+    
+    /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
+    func search(_ word: String) -> Bool {
+        return search(word, 0, self.root)
+    }
+    
+    private func search(_ word: String, _ index: Int, _ root: Node) -> Bool {
+        guard index < word.count else {
+            return root.hasWord
+        }
+        
+        let chars = Array(word)
+        let curr = root
+        
+        for i in index..<chars.count {
+            if chars[i] == Character(".") {
+                
+                if curr.map.count == 0 { return false }
+                
+                for (_, child) in curr.map {
+
+                    if search(word, index+1, child) == true {
+                        return true
+                    }
+                }
+                
+                return false
+                
+            } else {
+                if let node = curr.map[chars[i]] {
+                    return search(word, index+1, node)
+                } else {
+                    return false
+                }
+            }
+        }
+        
+        return curr.hasWord
+    }
+}
+
