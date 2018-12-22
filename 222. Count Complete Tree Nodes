@@ -1,0 +1,35 @@
+func countNodes(_ root: TreeNode?) -> Int {
+    guard let root = root else {
+        return 0
+    }
+    
+    let left = countLeftNodes(root)
+    let right = countRightNodes(root)
+    
+    if left == right {
+        return NSDecimalNumber(decimal: Decimal(pow(2.0, Double(left)) - 1.0)).intValue
+    }
+    
+    return countNodes(root.left) + countNodes(root.right) + 1
+}
+
+private func countLeftNodes(_ node: TreeNode?) -> Int {
+    var height = 0, node = node
+    
+    while node != nil {
+        node = node?.left
+        height += 1
+    }
+    
+    return height
+}
+
+private func countRightNodes(_ node: TreeNode?) -> Int {
+    var height = 0, node = node
+    while node != nil {
+        node = node?.right
+        height += 1
+    }
+    
+    return height
+}
