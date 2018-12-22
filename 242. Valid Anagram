@@ -1,0 +1,14 @@
+    func isAnagram(_ s: String, _ t: String) -> Bool {
+        guard s.count == t.count else { return false }
+        
+        var charS = Array(s).sorted()
+        var charT = Array(t).sorted()
+        
+        for i in 0..<charS.count {
+            if charS[i] != charT[i] {
+                return false
+            }
+        }
+        
+        return true
+    }
