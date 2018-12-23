@@ -1,0 +1,28 @@
+    func closestValue(_ root: TreeNode?, _ target: Double) -> Int {
+    var res = Int.max
+    
+    scan(&res, root, target)
+    
+    return res
+}
+
+private func scan(_ res: inout Int, _ root: TreeNode?, _ target: Double) {
+    guard let root = root else {
+        return
+    }
+    
+    if Double(root.val) == target {
+        res = root.val
+        return
+    }
+    
+    if abs(Double(root.val) - target) < abs(Double(res) - target) {
+        res = root.val
+    }
+    
+    if Double(root.val) > target {
+         scan(&res, root.left, target)
+    } else {
+         scan(&res, root.right, target)
+    }
+}
