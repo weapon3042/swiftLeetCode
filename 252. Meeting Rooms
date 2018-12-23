@@ -1,0 +1,14 @@
+    func canAttendMeetings(_ intervals: [Interval]) -> Bool {
+    guard intervals.count > 0 else {
+        return true
+    }
+    
+    let intervals = intervals.sorted { return $0.start < $1.start }
+    for i in 1..<intervals.count {
+        if intervals[i].start < intervals[i-1].end {
+            return false
+        }
+    }
+    
+    return true
+    }
