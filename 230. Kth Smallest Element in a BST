@@ -1,0 +1,27 @@
+    func kthSmallest(_ root: TreeNode?, _ k: Int) -> Int {
+    guard let root = root else {
+        return -1
+    }
+    
+    var stack = [TreeNode]()
+    var curr: TreeNode? = root
+    var k = k
+    
+    while curr != nil || !stack.isEmpty {
+        if curr != nil {
+            stack.append(curr!)
+            curr = curr?.left
+        } else {
+            let node = stack.popLast()
+            k -= 1
+            
+            if k == 0 {
+                return node!.val
+            }
+            
+            curr = node?.right
+        }
+    }
+    
+    return -1
+    }
