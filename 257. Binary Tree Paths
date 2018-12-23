@@ -1,0 +1,36 @@
+func binaryTreePaths(_ root: TreeNode?) -> [String] {
+    guard let root = root else {
+        return [String]()
+    }
+    
+    var res = [String]()
+    
+    dfs("", &res, root)
+    
+    return res
+}
+
+private func dfs(_ list: String, _ res: inout [String], _ node: TreeNode) {
+    guard node.left != nil || node.right != nil else {
+        var list = list
+        if list.count > 0 {
+            list += "->"
+        }
+        list.append("\(node.val)")
+        res.append(list)
+        return
+    }
+    
+    var list = list
+    
+    if list.count > 0 {
+        list += "->"
+    }
+    if let left = node.left {
+        dfs(list+"\(node.val)", &res, left)
+    }
+    
+    if let right = node.right {
+        dfs(list+"\(node.val)", &res, right)
+    }
+}
