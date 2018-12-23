@@ -1,0 +1,22 @@
+    guard nums.count > 0 else {
+        return [Int]()
+    }
+    
+    let n = nums.count
+    var arr1 = [Int](repeating: 1, count: n)
+    var arr2 = [Int](repeating: 1, count: n)
+    var res = [Int](repeating: 1, count: n)
+    
+    for i in 0..<n-1 {
+        arr1[i+1] = arr1[i] * nums[i]
+    }
+    
+    for i in 0..<n-1 {
+        arr2[n-1-i-1] = arr2[n-1-i] * nums[n-1-i]
+    }
+    
+    for i in 0..<n {
+        res[i] = arr1[i] * arr2[i]
+    }
+    
+    return res
