@@ -1,0 +1,27 @@
+    func intersect(_ nums1: [Int], _ nums2: [Int]) -> [Int] {
+    guard nums1.count > 0, nums2.count > 0 else { return [Int]() }
+    
+    var map = [Int: Int]()
+        var res = [Int]()
+        
+        for num in nums1 {
+            if let count = map[num] {
+                map[num] = count + 1
+            } else {
+                map[num] = 1
+            }
+        }
+        
+        for num in nums2 {
+            if let count = map[num] {
+                res.append(num)
+                if count == 1 {
+                    map[num] = nil
+                } else {
+                    map[num] = count - 1 
+                }
+            }
+        }
+        
+        return res
+    }
