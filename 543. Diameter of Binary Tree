@@ -1,0 +1,20 @@
+func diameterOfBinaryTree(_ root: TreeNode?) -> Int {
+        
+    var res = 0
+    process(root, &res)
+    
+    return res
+}
+
+private func process(_ root: TreeNode?, _ res: inout Int) -> Int {
+    guard let root = root else {
+        return 0
+    }
+    
+    let left = process(root.left, &res)
+    let right = process(root.right, &res)
+    
+    res = max(res, left + right)
+    
+    return max(left, right) + 1
+}
