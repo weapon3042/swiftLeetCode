@@ -1,0 +1,31 @@
+func canPermutePalindrome(_ s: String) -> Bool {
+    guard s.count > 0 else {
+        return false
+    }
+    
+    var map = [Character : Int]()
+    
+    let chars = Array(s)
+    
+    for char in chars {
+        if let currency = map[char] {
+            map[char] = currency+1
+        } else {
+            map[char] = 1
+        }
+    }
+    
+    var hasOdd = false
+    
+    for value in map.values {
+        if value%2 == 1 {
+            if hasOdd == true {
+                return false
+            } else {
+                hasOdd = true
+            }
+        }
+    }
+    
+    return true
+}
