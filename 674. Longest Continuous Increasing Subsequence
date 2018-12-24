@@ -1,0 +1,13 @@
+    func findLengthOfLCIS(_ nums: [Int]) -> Int {
+    guard nums.count > 1 else { return nums.count }
+    
+    var dp = [Int](repeating: 1, count: nums.count)
+    
+    for i in 1..<nums.count {
+        if nums[i] > nums[i-1] {
+            dp[i] = dp[i-1] + 1
+        }
+    }
+    
+    return dp.max()!
+    }
