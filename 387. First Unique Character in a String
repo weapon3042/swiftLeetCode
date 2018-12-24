@@ -1,0 +1,19 @@
+func firstUniqChar(_ s: String) -> Int {
+    guard s.count > 0 else {
+        return -1
+    }
+    
+    var map = [Character: [Int]]()
+    
+    let chars = Array(s)
+    
+    for i in 0..<chars.count {
+        if let _ = map[chars[i]] {
+            map[chars[i]]?.append(i)
+        } else {
+            map[chars[i]] = [i]
+        }
+    }
+    
+    return map.values.filter { $0.count == 1 }.flatMap{ $0 }.sorted().first ?? -1
+}
