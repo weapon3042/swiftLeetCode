@@ -1,0 +1,12 @@
+    guard nums1.count > 0, nums2.count > 0 else { return [Int]() }
+    
+    var set = Set<Int>(nums1)
+    var res = Set<Int>()
+    
+    for num in nums2 {
+        if set.contains(num) {
+            res.insert(num)
+        }
+    }
+    
+    return Array(res)
