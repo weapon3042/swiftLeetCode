@@ -1,0 +1,78 @@
+     public List<Integer> findAnagrams(String s, String p) {
+        if (s == null || p == null) {
+            return new ArrayList<Integer>();
+        }
+
+        Map<Character, Integer> map = new HashMap<>();
+        char[] pchar = p.toCharArray();
+        char[] schar = s.toCharArray();
+        List<Integer> res = new ArrayList<>();
+
+        for (char c : pchar) {
+            if (map.containsKey(c)) {
+                map.put(c, map.get(c)+1);
+            } else {
+                map.put(c, 1);
+            }
+        }
+
+        Map<Character, Integer> m = new HashMap<>();
+
+        for (int i =0; i<schar.length; i++) {
+            if (i < p.length()) {
+                // add on
+                if (m.containsKey(schar[i])) {
+                    m.put(schar[i], m.get(schar[i])+1);
+                } else {
+                    m.put(schar[i], 1);
+                }
+            } else {
+                //add
+                if (m.containsKey(schar[i])) {
+                    m.put(schar[i], m.get(schar[i])+1);
+                } else {
+                    m.put(schar[i], 1);
+                }
+
+                //remove
+                if (m.containsKey(schar[i-p.length()])) {
+                    m.put(schar[i-p.length()], m.get(schar[i-p.length()])-1);
+                }
+
+                if (m.get(schar[i-p.length()]) == 0) {
+                    m.remove(schar[i-p.length()]);
+                }
+            }
+
+            // verify
+            if (i>=p.length()-1) {
+                if (verify(m, map)) {
+                    res.add(i-p.length()+1);
+                }
+            }
+
+        }
+
+        return res;
+    }
+
+    private boolean verify(Map<Character, Integer> m1, Map<Character, Integer> m2) {
+        char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+
+        for (char c : chars) {
+            if (m1.containsKey(c) && !m2.containsKey(c)) {
+                return false;
+            }
+
+            if (!m1.containsKey(c) && m2.containsKey(c)) {
+                return false;
+            }
+
+            if (m1.containsKey(c) && m2.containsKey(c)) {
+                if (!m1.get(c).equals(m2.get(c))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
