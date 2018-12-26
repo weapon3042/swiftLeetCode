@@ -1,0 +1,28 @@
+    func pathSum(_ root: TreeNode?, _ sum: Int) -> Int {
+
+        var count = 0
+        
+        traverse(root, &count, sum)
+        
+        return count
+    }
+
+    func traverse(_ node: TreeNode?, _ count: inout Int, _ sum: Int) {
+        guard let head = node else { return }
+        
+        dfs(head, sum, &count)
+        
+        traverse(head.left, &count, sum)
+        traverse(head.right, &count, sum)
+    }
+    
+    func dfs(_ root: TreeNode?, _ sum: Int, _ count: inout Int) {
+        guard let head = root else { return }
+                
+        if head.val == sum {
+            count += 1
+        }
+        
+        dfs(head.left, sum-head.val, &count)
+        dfs(head.right, sum-head.val, &count)
+    }
