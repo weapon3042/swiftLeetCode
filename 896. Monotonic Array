@@ -1,0 +1,32 @@
+    func isMonotonic(_ arr: [Int]) -> Bool {
+        
+        guard arr.count > 1 else { return true }
+        
+        
+        var i = 1, assending = 0
+        
+        while i < arr.count {
+         if arr[i-1] < arr[i] {
+             assending = 1
+             break
+         } else if arr[i-1] > arr[i] {
+             assending = -1
+             break
+         }
+            
+            i += 1
+        }
+        
+        if i == arr.count { return true }
+        
+        while i < arr.count {
+            if assending == 1, arr[i] < arr[i-1] { return false }
+            if assending == -1, arr[i] > arr[i-1] { return false }
+            
+            i += 1
+        }
+        
+        return true
+
+    }
+
