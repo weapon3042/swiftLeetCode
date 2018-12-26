@@ -1,0 +1,20 @@
+    func depthSum(_ nestedList: [NestedInteger]) -> Int {
+        var res = 0
+        process(nestedList, &res, 1)
+        
+        return res
+    }
+    
+    private func process(_ list: [NestedInteger], _ res: inout Int, _ level: Int) {
+        guard list.count > 0 else { return }
+                
+        for it in list {
+            
+            if it.isInteger() {
+                res += it.getInteger() * level
+            } else {
+                process(it.getList(), &res, level+1)
+            }
+        }
+    }
+
