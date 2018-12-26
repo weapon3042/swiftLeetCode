@@ -1,0 +1,23 @@
+class MovingAverage {    
+    private let count: Int;
+    private var sum: Double;
+    private var queue: [Int]
+    
+    init(_ size: Int) {
+        count = size
+        sum = 0
+        queue = [Int]()
+    }
+    
+    func next(_ val: Int) -> Double {
+        if queue.count < count {
+            queue.append(val)
+            sum += Double(val)
+        } else {
+            sum -= Double(queue.removeFirst())
+            queue.append(val)
+            sum += Double(val)
+        }
+        return sum / Double(queue.count)            
+    }
+}
