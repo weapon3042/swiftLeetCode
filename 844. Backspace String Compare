@@ -1,0 +1,26 @@
+    func backspaceCompare(_ S: String, _ T: String) -> Bool {
+        var schar = Array(S)
+        var tchar = Array(T)
+        
+        var sres = ""
+        var tres = ""
+        
+        process(&schar, &sres)
+        process(&tchar, &tres)
+        
+        return sres == tres
+    }
+    
+    private func process(_ schar: inout [Character], _ res: inout String) {
+    
+        for c in schar {
+            if c == Character("#") {
+                if res.count > 0 {
+                    res = String(res[res.startIndex..<res.index(res.startIndex, offsetBy: res.count-1)])
+                } 
+            } else {
+                res += String(c)
+            }
+        }
+
+    }
