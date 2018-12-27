@@ -1,0 +1,97 @@
+version 1
+
+class MinStack {
+    public class Node {
+        Node next;
+        int val;
+        Node prev;
+        
+        public Node(int val) {
+            this.next = null;
+            this.prev = null;
+            this.val = val;
+        }
+    }
+    
+    private Node head;
+    private Node tail;
+    private TreeMap<Integer, List<Node>> map;
+    
+    public MinStack() {
+        this.head = new Node(0);
+        this.tail = new Node(0);
+        head.next = tail;
+        tail.prev = head;
+        this.map = new TreeMap<>();
+    }
+    
+    public void push(int x) {
+        Node node = new Node(x);
+        node.next = tail;
+        node.prev = tail.prev;
+        tail.prev.next = node;
+        tail.prev = node;
+       
+        if (map.containsKey(x)) {
+            map.get(x).add(node);
+        } else {
+            map.put(x, new ArrayList<Node>(Arrays.asList(node)));
+        }
+    }
+    
+    public void pop() {
+        int top = top();
+        Node node = tail.prev;
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+        
+        if (top == getMin()) {
+        List<Node> list = map.get(top);
+        if (list.size()==0) { return; }
+        list.remove(list.size()-1);
+        
+        if (list.size() == 0) {
+            map.remove(top);
+        }
+        }
+    }
+    
+    public int top() {
+        return tail.prev.val;
+    }
+    
+    public int getMin() {
+        return map.firstKey();
+    }
+}
+
+
+version 2
+
+public class MinStack {
+    private Stack<Integer> stack;
+    private Stack<Integer> minStack;
+    
+    public MinStack() {
+        stack = new Stack<Integer>();
+        minStack = new Stack<Integer>();
+    }
+
+    public void push(int number) {
+        stack.push(number);
+        if (minStack.isEmpty()) {
+            minStack.push(number);
+        } else {
+            minStack.push(Math.min(number, minStack.peek()));
+        }
+    }
+
+    public int pop() {
+        minStack.pop();
+        return stack.pop();
+    }
+
+    public int min() {
+        return minStack.peek();
+    }
+}
