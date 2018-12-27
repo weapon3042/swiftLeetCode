@@ -1,0 +1,68 @@
+    public int compress(char[] chars) {
+        if (chars == null || chars.length == 0) {
+            return 0;
+        }
+        
+        char curr = ' ';
+        int count = 0;
+        int index = 0;
+        
+        for (int i=0; i<chars.length; i++) {
+            if (i == 0) {
+                curr = chars[i];
+                count = 1;
+                continue;
+            }
+            
+            if (chars[i] == curr) {
+                count++;
+            } else {
+                chars[index++] = curr;
+                if (count > 1) {
+                    int digit = 0;
+                    int temp = count;
+                    
+                    while (temp > 0) {
+                        digit++;
+                        temp /= 10;
+                    }
+                    
+                    while (digit > 0) {
+                        chars[index++] = (char)(count/Math.pow(10, digit-1) % 10 + '0');
+                        digit--;
+                    }
+                }
+                count = 1;
+                curr = chars[i];
+            }
+            
+            if (i == chars.length-1) {
+                chars[index++] = curr;
+                if (count > 1) {
+                    int digit = 0;
+                    int temp = count;
+                    
+                    while (temp > 0) {
+                        digit++;
+                        temp /= 10;
+                    }
+                    
+                    while (digit > 0) {
+                        chars[index++] = (char)(count/Math.pow(10, digit-1) % 10 + '0');
+                        digit--;
+                    }
+                }
+                count = 0;
+                curr = ' ';
+            }
+        }
+        
+        if (count > 0) {
+                chars[index++] = curr;
+                if (count > 1) {
+                    chars[index++] = (char)(count + '0');
+                }
+        }
+                
+        return index;
+    }
