@@ -1,0 +1,38 @@
+    func checkEqualTree(_ root: TreeNode?) -> Bool {
+        guard let root = root else {
+            return false
+        }
+        
+        let totalSum = cal(root)
+        
+        return helper(root, totalSum)
+    }
+        
+    
+    private func helper(_ root: TreeNode?, _ total: Int) -> Bool {
+        guard let root = root else {
+            return false
+        }
+
+        if let rightTree = root.right, let leftTree = root.left {
+            let left = cal(leftTree)
+            let right = cal(rightTree)
+        
+            if total - right == right || total - left == left { return true }
+        } else if let rightTree = root.right {
+            let right = cal(rightTree)
+            if total - right == right { return true }
+        } else if let leftTree = root.left {
+            let left = cal(leftTree)
+            if total - left == left { return true }
+        }
+        
+        return helper(root.left, total) || helper(root.right, total)
+    }
+    
+    private func cal(_ root: TreeNode?) -> Int {
+        guard let root = root else { return 0 }
+        
+        return root.val + cal(root.left) + cal(root.right)
+    }
+
