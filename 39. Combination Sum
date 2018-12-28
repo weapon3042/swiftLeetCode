@@ -1,0 +1,27 @@
+    func combinationSum(_ set: [Int], _ target: Int) -> [[Int]] {
+        guard set.count > 0 else { return [[Int]]() }
+        
+        var res = [[Int]](), set = set
+        let list = [Int]()
+        
+        dfs(set, 0, target, &res, list)
+        
+        return res
+
+    }
+    
+    private func dfs(_ set: [Int], _ index: Int, _ target: Int, _ res: inout [[Int]], _ list: [Int]) {
+        if target == 0 {
+            res.append(list)
+            return 
+        }
+        
+        var list = list
+        for i in index..<set.count {
+            if set[i] <= target {
+                list.append(set[i])
+                dfs(set, i, target - set[i], &res, list)
+                list.removeLast()
+            }
+        }
+    }
