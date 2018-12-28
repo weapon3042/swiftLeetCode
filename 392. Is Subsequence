@@ -1,0 +1,18 @@
+    func isSubsequence(_ s: String, _ t: String) -> Bool {
+        guard s.count <= t.count else { return false }
+        
+        var i = 0, j = 0, schar = Array(s), tchar = Array(t)
+        
+        while i < schar.count, j < tchar.count {
+            if schar[i] == tchar[j] {
+                i += 1
+                j += 1
+            } else {
+                j += 1
+            }
+        }
+        
+        return i == schar.count
+
+    }
+
