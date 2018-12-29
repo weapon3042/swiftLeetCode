@@ -1,0 +1,26 @@
+    func combinationSum2(_ candidates: [Int], _ target: Int) -> [[Int]] {
+        guard candidates.count > 0 else { return [[Int]]() }
+        
+        var res = [[Int]](), list = [Int]()
+        
+        dfs(candidates.sorted(by: <), target, &res, &list, 0)
+        
+        return res
+    }
+    
+    private func dfs(_ nums: [Int], _ target: Int, _ res: inout [[Int]], _ list: inout [Int], _ index: Int) {
+        if target == 0 {
+            res.append([Int](list))
+            return 
+        }
+        
+        for i in index..<nums.count {
+            if i > index && nums[i] == nums[i-1] { continue }
+            
+            if target >= nums[i] {
+                list.append(nums[i])
+                dfs(nums, target-nums[i], &res, &list, i+1)
+                list.removeLast()
+            }
+        }
+    }
