@@ -1,0 +1,28 @@
+class Solution {
+    Map<String, PriorityQueue<String>> adj_map = new HashMap<>();
+    List<String> route = new LinkedList<>();
+    
+    
+    public List<String> findItinerary(String[][] tickets) {
+        route = new LinkedList<>();
+        adj_map = new HashMap<>();
+        
+        for (String[] ticket : tickets)
+            adj_map.computeIfAbsent(ticket[0], k -> new PriorityQueue()).add(ticket[1]);
+        dfs("JFK");
+        return route;
+    }
+
+    private void dfs(String airport) {
+        while(adj_map.containsKey(airport) && !adj_map.get(airport).isEmpty()) {
+            String des = adj_map.get(airport).poll();
+            dfs(des);
+        }
+        route.add(0, airport);
+    }
+}
+
+作者：sherwin29
+链接：https://www.jianshu.com/p/443d7133a7ad
+來源：简书
+简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。
