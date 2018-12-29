@@ -1,0 +1,38 @@
+    func verticalOrder(_ root: TreeNode?) -> [[Int]] {
+        guard let head = root else { return [[Int]]() }
+        
+        var qNode = [TreeNode](), qCol = [Int](), map = [Int: [Int]](), minCol = 0, maxCol = 0, res = [[Int]]()
+        
+        qNode.append(head)
+        qCol.append(0)
+        
+        while !qNode.isEmpty {
+            let node = qNode.removeFirst()
+            let col = qCol.removeFirst()
+            
+            if let _ = map[col] {
+                    map[col]!.append(node.val)
+                } else {
+                    map[col] = [node.val]
+                }
+
+
+            if let left = node.left {
+                qNode.append(left)
+                qCol.append(col-1)
+                minCol = min(col-1, minCol)
+            }
+            
+            if let right = node.right {
+                qNode.append(right)
+                qCol.append(col+1)
+                maxCol = max(maxCol, col+1)
+            }
+        }
+        
+        for i in minCol...maxCol {
+            res.append(map[i]!)
+        }
+        
+        return res
+    }
