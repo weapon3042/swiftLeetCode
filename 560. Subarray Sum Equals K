@@ -1,0 +1,28 @@
+    func subarraySum(_ nums: [Int], _ k: Int) -> Int {
+    guard nums.count > 0 else {
+        return 0
+    }
+    
+    var map = [Int: [Int]]()
+    
+    var sum = Array(repeating: 0, count: nums.count + 1)
+    
+    sum[0] = 0
+    map[0] = [0]
+    var res = 0
+    for i in 1..<sum.count {
+        sum[i] = sum[i-1] + nums[i-1]
+        
+        if let list = map[sum[i] - k] {
+            res += list.count
+        }
+        
+        if map[sum[i]] != nil {
+           map[sum[i]]?.append(i)
+        } else {
+            map[sum[i]] = [i]
+        }
+    }
+    
+    return res
+    }
