@@ -1,0 +1,54 @@
+class Point {
+    
+    var time: Int
+    var type:PointType
+    
+    init(_ time: Int, _ type: PointType) {
+        self.time = time
+        self.type = type
+    }
+}
+
+enum PointType {
+    case start
+    case end
+}
+
+func minMeetingRooms(_ intervals: [Interval]) -> Int {
+        
+    guard intervals.count > 1 else { return intervals.count }
+    
+    var points = [Point]()
+    for interval in intervals {
+        points.append(Point(interval.start, .start))
+        points.append(Point(interval.end, .end))
+    }
+
+    points.sort { 
+        
+        if $0.time != $1.time {
+            return $0.time < $1.time
+        } else {
+            if $0.type == .end {
+                return true
+            } else {
+                return false
+            }
+        }  
+    }
+    
+    var count = 0, res = 0
+    
+    for point in points {
+        if point.type == .start {
+            count += 1
+        } else {
+            count -= 1
+        }
+        
+        res = max(res, count)
+    }
+    
+    return res
+}
+
