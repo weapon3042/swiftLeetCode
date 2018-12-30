@@ -1,0 +1,23 @@
+public:
+	int B;
+	map<pair<int,int>,int> memo;
+	
+	int dp(int cur,int step) {
+		cur=abs(cur);
+		if(cur==0) return 0;
+		if(cur==1) return (1+abs(step));
+		if(memo.count({cur,step})) return memo[{cur,step}];
+		
+		if(cur%B==0) {
+			return memo[{cur,step}]=dp(cur/B,step+1);
+		}
+		else {
+			return memo[{cur,step}]=min(dp(cur/B,step+1)+(cur%B)*(1+abs(step)),dp(cur/B+1,step+1)+(B-(cur%B))*(1+abs(step)));
+		}
+	}
+    int leastOpsExpressTarget(int x, int target) {
+		B=x;
+        memo.clear();
+        return dp(target,-1)-1;
+    }
+
