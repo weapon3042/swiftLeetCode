@@ -1,0 +1,49 @@
+class unionFind {
+    var father = [Int]()
+    var count = 0
+    
+    init(_ i: Int) {
+        count = i
+        for j in 0..<i {
+            father.append(j)
+        }
+    }
+    
+    func union(_ i: Int, _ j: Int) {
+        let fatherA = find(i)
+        let fatherB = find(j)
+        
+        if fatherA != fatherB {
+            father[fatherA] = fatherB
+            count -= 1
+        }
+    }
+    
+    func find(_ a: Int) -> Int {
+        if a == father[a] {
+            return a
+        }
+        
+        father[a] = father[father[a]]
+         return find(father[a])
+    }
+}
+
+func findCircleNum(_ arr: [[Int]]) -> Int {
+    guard arr.count > 0, arr[0].count > 0 else { return 0 }
+    
+    let m = arr.count
+    let n = arr[0].count
+    let uf = unionFind(m)
+    print(uf.count)
+    
+    for i in 0..<m {
+        for j in 0..<n {
+            if arr[i][j] == 1 {
+                uf.union(i, j)
+            }
+        }
+    }
+    
+    return uf.count
+}
