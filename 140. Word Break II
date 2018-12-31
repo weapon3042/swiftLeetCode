@@ -1,0 +1,113 @@
+    class TrieNode {
+        var val: Character?
+        var map = [Character: TrieNode]()
+        var hasWord = false
+        
+        init(_ val: Character) {
+            self.val = val
+            
+        }
+        
+        init() {
+            self.val = nil
+        }
+    }
+    
+    class Trie {
+        var root = TrieNode()
+        
+        public func insert(_ word: String) {
+            guard word.count > 0 else { return }
+            
+            let chars = Array(word)
+            var curr = root
+            
+            for c in chars {
+                if let node = curr.map[c] {
+                    curr = node
+                } else {
+                    let newNode = TrieNode(c)
+                    curr.map[c] = newNode
+                    curr = newNode
+                }
+            }
+            
+            curr.hasWord = true
+        }
+        
+        public func startWith(_ word: String) -> Bool {
+            return searchWord(word) != nil
+        }
+        
+        public func search(_ word: String) -> Bool {
+            return searchWord(word) != nil && searchWord(word)!.hasWord == true
+        }
+        
+        private func searchWord(_ word: String) -> TrieNode? {
+            guard word.count > 0 else { return nil }
+            
+            let chars = Array(word)
+            var curr = root
+            
+            for c in chars {
+                if let node = curr.map[c] {
+                    curr = node
+                } else {
+                    return nil
+                }
+            }
+            
+            return curr
+        }
+        
+    }
+    
+    private var map = [String: [String]]()
+                                    
+    func wordBreak(_ s: String, _ wordDict: [String]) -> [String] {
+        
+        guard s.count > 0, wordDict.count > 0 else { return [String]() }
+        
+        
+        let trie = Trie()
+        
+        let dict = Set<String>(wordDict)
+        
+        wordDict.forEach { trie.insert($0) }
+                
+        return dfs(s, dict, trie)
+
+    }
+    
+    private func dfs(_ s: String, _ dict: Set<String>, _ trie: Trie) -> [String] {
+        guard s.count > 0, dict.count > 0 else { return [String]() }
+        
+        if let cached = map[s] { return cached }
+        
+        let chars = Array(s)
+        var res = [String]()
+        
+        for i in 1...chars.count {
+           let prefix = String(chars[0..<i])
+            
+            if trie.startWith(prefix) == false { break }
+            
+            if dict.contains(prefix) {
+                if i == chars.count {
+                    res.append(s)
+                } else {
+                    let suffix = String(chars[i..<chars.count])
+                    let suffixes = dfs(suffix, dict, trie)
+                    
+                    for s in suffixes {
+                        res.append(prefix + " " + s)
+                    }
+                }
+            }        
+        }
+        
+        map[s] = res
+        
+        return res
+    }
+
