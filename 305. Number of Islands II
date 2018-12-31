@@ -1,0 +1,77 @@
+    class UnionFind {
+        private var father = [Int]()
+        private var count: Int
+        
+        init(_ i: Int) {
+            for k in 0..<i {
+                father.append(k)
+            }
+            count = 0
+        }
+        
+        func getCount() -> Int {
+            return self.count
+        }
+
+        func setCount(_ count:Int) {
+            self.count = count
+        }
+        
+        func union(_ i: Int, _ j: Int) {
+            let fathera = find(i)
+            let fatherb = find(j)
+            
+            if fathera != fatherb {
+                father[fathera] = fatherb
+                count -= 1
+            }
+        }
+        
+        func find(_ i: Int) -> Int {
+            if father[i] == i {
+                return i
+            }
+            
+            father[i] = father[father[i]]
+            
+            return find(father[i])
+        }
+    }
+    
+    let dx = [-1, 1, 0, 0]
+    let dy = [0, 0, -1, 1]
+    
+    func numIslands2(_ m: Int, _ n: Int, _ arr: [[Int]]) -> [Int] {
+        guard m > 0, n > 0 else { return [Int]() }
+        
+        let uf = UnionFind(m*n)
+        
+        var matrix = [[Int]](repeating: [Int](repeating: 0, count: n), count: m)
+        
+        var res = [Int]()
+        
+        for a in arr {
+            let i = a[0]
+            let j = a[1]
+                matrix[i][j] = 1
+                
+                uf.setCount(uf.getCount() + 1)
+                
+                for k in 0..<4 {
+                    let x = i + dx[k]
+                    let y = j + dy[k]
+                    
+                    if valid(m, n, x, y), matrix[x][y] == 1 {
+                        uf.union(x * n + y, i * n + j)
+                    }
+                }
+                
+                res.append(uf.getCount())
+            }
+        
+        return res
+    }
+    
+    private func valid(_ m: Int, _ n: Int, _ i: Int, _ j: Int) -> Bool {
+        return i >= 0 && i < m && j >= 0 && j < n
+    }
