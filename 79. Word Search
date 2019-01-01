@@ -1,51 +1,44 @@
-let dx = [-1, 1, 0, 0]
-let dy = [0, 0, -1, 1]
-
-func exist(_ board: [[Character]], _ word: String) -> Bool {
-    guard board.count > 0, word.count > 0 else {
+    func exist(_ board: [[Character]], _ word: String) -> Bool {
+        guard board.count > 0, board[0].count > 0, word.count > 0 else { return false }
+        
+        let m = board.count
+        let n = board[0].count
+        let chars = Array(word)
+        var visit = [[Bool]](repeating: [Bool](repeating: false, count: n), count: m)
+        
+        for i in 0..<m {
+            for j in 0..<n where board[i][j] == chars.first! {
+                if dfs(board, i, j, &visit, chars, 0) { return true}
+            }
+        }
+        
         return false
     }
     
-    let chars = Array(word)
-    var visit = Array(repeating:Array(repeating: false, count: board[0].count), count: board.count)
+    let dx = [-1,1, 0, 0]
+    let dy = [0, 0, -1, 1]
     
-    for i in 0..<board.count {
-        for j in 0..<board[0].count {
-            if board[i][j] == chars[0] {
-                var res = false
-                dfs(board, word, 0, i, j, &visit, &res)
-                
-                if res == true { return true }
-            }
+    private func dfs(_ board: [[Character]], _ i: Int, _ j: Int, _ visit: inout [[Bool]], _ chars: [Character], _ index: Int) -> Bool {
+    if index == chars.count - 1 {
+        return true
+    }
+    
+    visit[i][j] = true
+    
+    for k in 0..<4 {
+        let x = i + dx[k]
+        let y = j + dy[k]
+        
+        if valid(board, x, y) && !visit[x][y] && board[x][y] == chars[index+1] {
+                if dfs(board, x, y, &visit, chars, index+1) { return true }
         }
     }
+    
+    visit[i][j] = false
+    
     return false
 }
 
-private func dfs(_ board: [[Character]], _ word: String, _ index: Int, _ x: Int, _ y: Int, _ visit: inout [[Bool]], _ res: inout Bool) {
-    if res == true { return }
-    
-    if index == word.count - 1 {
-        res = true
-        return
-    }
-    
-    visit[x][y] = true
-    for k in 0..<4 {
-        let i = x + dx[k]
-        let j = y + dy[k]
-        
-        if !isValid(x: i, y: j, board: board) { continue }
-        
-        if visit[i][j] == true { continue }
-        
-        if board[i][j] == word[word.index(word.startIndex, offsetBy: index+1)] {
-            dfs(board, word, index+1, i, j, &visit, &res)
-        }
-    }
-    visit[x][y] = false
-}
-
-private func isValid(x: Int, y: Int, board: [[Character]]) -> Bool {
-    return x >= 0 && x < board.count && y >= 0 && y < board[0].count
+func valid(_ board: [[Character]], _ i: Int, _ j: Int) -> Bool {
+    return i >= 0 && i < board.count && j >= 0 && j < board[0].count
 }
