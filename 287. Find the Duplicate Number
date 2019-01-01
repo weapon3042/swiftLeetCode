@@ -1,0 +1,32 @@
+    func findDuplicate(_ nums: [Int]) -> Int {
+        
+        guard nums.count > 0 else { return -1 }
+        
+        var left = 0, right = nums.count - 1, mid = 0
+        
+        while left + 1 < right {
+            mid = left + (right - left)/2
+            
+            if check(nums, mid) <= mid {
+                left = mid
+            } else {
+                right = mid
+            }
+        }
+        
+        if check(nums, left) > left {
+            return left
+        } else {
+            return right
+        }
+
+    }
+    
+    private func check(_ nums: [Int], _ limit: Int) -> Int {
+        var count = 0
+        
+       
+        nums.forEach { if $0 <= limit { count += 1 } }
+        
+        return count
+    }
