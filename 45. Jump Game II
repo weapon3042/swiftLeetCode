@@ -1,0 +1,41 @@
+version 1
+func jump(_ nums: [Int]) -> Int {
+       guard nums.count > 0 else { return 0 }
+        
+        var dp = [Int](repeating: Int.max, count: nums.count)
+        dp[0] = 0
+        
+        for i in 1..<nums.count {
+            for j in 0..<i {
+                if dp[j] != Int.max, nums[j] + j >= i {
+                    dp[i] = min(dp[i], dp[j]+1)
+                }
+            }
+        }
+        
+        return dp[nums.count-1]
+    }
+
+version 2
+func jump(_ nums: [Int]) -> Int {
+       guard nums.count > 0 else { return 0 }
+        
+        var start = 0, end = 0, furthest = 0, jump = 0
+        
+        while end < nums.count - 1 {
+            jump += 1
+            furthest = end
+            
+            for i in start...end {
+                if nums[i] + i > furthest {
+                    furthest = nums[i] + i
+                }
+            }
+            
+            start = end + 1
+            end = furthest
+        }
+        
+        return jump
+    }
+
