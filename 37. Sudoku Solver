@@ -1,0 +1,52 @@
+    func solveSudoku(_ board: inout [[Character]]) {
+        guard board.count > 0, board[0].count > 0 else { return }
+        
+        dfs(&board)
+    }
+    
+    
+    private func dfs(_ board: inout [[Character]]) -> Bool {
+        let m = board.count
+        let n = board[0].count
+        
+        for i in 0..<m {
+            for j in 0..<n {
+                if board[i][j] == Character(".") {
+                    for k in 1...9 {
+                     if valid(board, i, j, Array(String(k)).first!) {
+                         board[i][j] = Array(String(k)).first!
+                         if dfs(&board) {
+                             return true
+                         } else {
+                            board[i][j] = Character(".")   
+                         }
+                     } 
+                    }
+                    
+                    return false
+                }
+            }
+        }
+        
+        return true
+    }
+    
+    private func valid(_ board: [[Character]], _ i: Int, _ j: Int, _ k: Character) -> Bool {
+        for m in 0..<board[0].count {
+         if board[i][m] == k { return false }
+        }
+        
+        for m in 0..<board.count {
+         if board[m][j] == k { return false }   
+        }
+        
+        
+        for m in i/3*3..<i/3*3+3 {
+            for n in j/3*3..<j/3*3+3 {
+                if board[m][n] == k { return false }
+            }
+        }
+        
+        return true
+    }
+
