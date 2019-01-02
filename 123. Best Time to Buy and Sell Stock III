@@ -1,0 +1,36 @@
+    func maxProfit(_ prices: [Int]) -> Int {
+        
+        guard prices.count > 1 else { return 0 }
+        
+        let n = prices.count
+        var left = [Int](repeating: 0, count: n)
+        var right = [Int](repeating: 0, count: n)
+        
+        var minV = prices[0]
+        left[0] = 0
+        
+        for i in 1..<n {
+            left[i] = max(left[i-1], prices[i] - minV)
+            minV = min(minV, prices[i])
+        }
+        
+        
+        minV = prices.last!
+        right[n - 1] = 0
+        
+        var j = n - 2
+        
+        while j >= 0 {
+            right[j] = max(right[j+1], minV-prices[j])
+            minV = max(minV, prices[j])
+            j -= 1
+        }
+        
+        var profit = 0
+        
+        for i in 0..<n {
+            profit = max(profit, left[i] + right[i])
+        }
+            
+        return profit
+    }
