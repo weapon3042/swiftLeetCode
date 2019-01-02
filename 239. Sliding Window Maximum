@@ -1,0 +1,28 @@
+    func maxSlidingWindow(_ nums: [Int], _ k: Int) -> [Int] {
+        guard nums.count > 0, k > 0 else { return [Int]() }
+        
+        var queue = [Int](), res = [Int]()
+        
+        
+        for i in 0..<nums.count {
+         
+            while !queue.isEmpty, nums[i] > queue.last! {
+                queue.popLast()
+            }
+            
+            queue.append(nums[i])
+            
+            if i >= k, queue.first! == nums[i-k] {
+                queue.removeFirst()   
+            }
+            
+            
+            if i >= k-1 {
+                res.append(queue.first!)   
+            }
+        }
+        
+        return res
+
+    }
+
