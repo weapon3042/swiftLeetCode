@@ -1,0 +1,29 @@
+    func trap(_ height: [Int]) -> Int {
+        
+        guard height.count > 2 else { return 0 }
+        
+        var left = 0, right = height.count - 1, leftHeight = height.first!, rightHeight = height.last!
+        
+        var res = 0 
+        while left < right {
+            if height[left] < height[right] {
+                left += 1
+                
+                if height[left] < leftHeight {
+                    res += leftHeight - height[left]
+                } else {
+                    leftHeight = height[left]
+                }
+            } else {
+                right -= 1
+                if height[right] < rightHeight {
+                    res += rightHeight - height[right]
+                } else {
+                    rightHeight = height[right]
+                }
+            }
+            
+        }
+                    return res
+    }
+
