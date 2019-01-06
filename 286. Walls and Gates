@@ -1,0 +1,60 @@
+class Solution {
+        static class Node {
+        int val;
+        int i;
+        int j;
+
+        public Node(int val, int i, int j) {
+            this.val = val;
+            this.i = i;
+            this.j = j;
+        }
+    }
+    static int[] dx = {-1, 1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+
+    public void wallsAndGates(int[][] rooms) {
+        if (rooms == null || rooms.length == 0 || rooms[0].length == 0) {
+            return;
+        }
+
+        Queue<Node> queue = new LinkedList<>();
+
+        for (int i=0; i< rooms.length; i++) {
+            for (int j=0; j<rooms[0].length; j++) {
+                if (rooms[i][j] == 0) {
+                    queue.add(new Node(0, i, j));
+                }
+            }
+        }
+
+        boolean[][] visit = new boolean[rooms.length][rooms[0].length];
+
+        while (!queue.isEmpty()) {
+            Node curr = queue.poll();
+
+            for (int k =0; k<4; k++) {
+                int x = curr.i + dx[k];
+                int y = curr.j + dy[k];
+
+                if (valid(rooms, x, y)) {
+                    if (rooms[x][y] == -1 || visit[x][y] == true) { continue; }
+
+                    if (rooms[x][y] == Integer.MIN_VALUE) {
+                        rooms[x][y] = curr.val + 1;
+                    } else {
+                        rooms[x][y] = Math.min(rooms[x][y], curr.val + 1);
+                        queue.add(new Node(rooms[x][y], x, y));
+                    }
+
+                    visit[x][y] = true;
+                }
+            }
+        }
+    }
+    
+        static private boolean valid(int[][] rooms, int x, int j) {
+        return x>=0 && x<rooms.length && j >= 0 && j < rooms[0].length;
+    }
+
+}
