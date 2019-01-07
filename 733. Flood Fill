@@ -1,0 +1,31 @@
+    let dx = [-1, 1, 0, 0]
+    let dy = [0, 0, -1, 1]
+    
+    func floodFill(_ image: [[Int]], _ sr: Int, _ sc: Int, _ newColor: Int) -> [[Int]] {
+        
+        guard image.count > 0, image[0].count > 0 else {
+            return image
+        }
+        
+        var arr = image
+        
+        dfs(&arr, sr, sc, newColor, image[sr][sc])
+        
+        return arr
+    }
+    
+    private func dfs(_ image: inout [[Int]], _ i: Int, _ j: Int, _ color: Int, _ ori: Int) {
+        if image[i][j] == color || image[i][j] != ori { return }
+        
+        image[i][j] = color
+        
+        for k in 0..<4 {
+            let x = i + dx[k]
+            let y = j + dy[k]
+            
+            if x >= 0 && x < image.count && y >= 0 && y < image[0].count {
+                dfs(&image, x, y, color, ori)
+            }
+        }
+    }
+
