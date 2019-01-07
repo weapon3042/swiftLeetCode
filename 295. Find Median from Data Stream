@@ -1,0 +1,53 @@
+class MedianFinder {
+
+     class maxComparator implements Comparator<Integer> {
+         @Override
+         public int compare(Integer a, Integer b) {
+             return b.compareTo(a);
+         }
+        }
+     
+        private PriorityQueue<Integer> minQueue;
+        private PriorityQueue<Integer> maxQueue;
+        private int numberOfElements;
+
+    /** initialize your data structure here. */
+    public MedianFinder() {
+        minQueue = new PriorityQueue<Integer>();
+        maxQueue = new PriorityQueue<Integer>(new maxComparator());
+        numberOfElements = 0;
+    }
+    
+    public void addNum(int num) {
+        maxQueue.add(num);
+        
+        if (numberOfElements%2 == 0) {
+            if (minQueue.isEmpty()) {
+                numberOfElements++;
+                return;
+            }
+            
+            if (maxQueue.peek() > minQueue.peek()) {
+                Integer minItem = minQueue.poll();
+                Integer maxItem = maxQueue.poll();
+                
+                minQueue.add(maxItem);
+                maxQueue.add(minItem);
+            }
+            
+        } else {
+            minQueue.add(maxQueue.poll());
+        }
+        numberOfElements++;
+    }
+    
+    public double findMedian() {
+        if (numberOfElements%2 == 0) {
+            return (double)(maxQueue.peek() + minQueue.peek())/2;
+        } else {
+        return (double)maxQueue.peek();
+
+        }
+    }
+}
+
