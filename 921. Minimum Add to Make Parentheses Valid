@@ -1,0 +1,35 @@
+    var res = 0
+    func minAddToMakeValid(_ s: String) -> Int {
+        
+        var chars = Array(s)
+               
+        dfs(chars, 0)
+        
+        return res
+        
+    }
+    
+    private func dfs(_ chars:[Character], _ index: Int) {
+        guard index < chars.count else { return }
+        
+        var count = 0
+        
+        for i in index..<chars.count {
+            if chars[i] == Character("(") {
+                count += 1
+            } else {
+                count -= 1
+            }
+            
+            if count < 0 { 
+                res += 1
+                dfs(chars, i+1)
+                return
+            }
+        }
+        
+        if count > 0 {
+            res += count
+        }
+    }
+
