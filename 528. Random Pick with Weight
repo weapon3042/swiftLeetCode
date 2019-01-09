@@ -1,0 +1,29 @@
+    List<Integer> psum = new ArrayList<>();
+    int tot = 0;
+    Random rand = new Random();
+
+    public Solution(int[] w) {
+        for (int x : w) {
+            tot += x;
+            psum.add(tot);
+        }
+    }
+
+    public int pickIndex() {
+        int targ = rand.nextInt(tot);
+
+        int lo = 0;
+        int hi = psum.size() - 1;
+        while (lo + 1 < hi) {
+            int mid = (lo + hi) / 2;
+            if (targ >= psum.get(mid)) lo = mid;
+            else hi = mid;
+        }
+        
+        if (psum.get(lo) > targ) {
+            return lo;
+        } else {
+            return hi;
+        }
+    }
+
