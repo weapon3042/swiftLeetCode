@@ -1,0 +1,24 @@
+    public boolean checkValidString(String s) {
+    int len=s.length();
+    int l=0, cp=0;
+    for (int i=0; i<len; i++) {
+        if (s.charAt(i)=='(') {
+            l++;
+            cp++;
+        } else if (s.charAt(i)=='*') {
+            if (l>0) {
+                l--;
+            }
+            cp++;
+        } else {
+            if (l>0) l--;
+            cp--;
+            if (cp<0) return false;
+        }
+    }
+    if (l==0)
+      return true;
+    else
+      return false;
+    }
+
