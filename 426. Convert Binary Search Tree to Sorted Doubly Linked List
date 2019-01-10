@@ -1,0 +1,38 @@
+    public Node treeToDoublyList(Node root) {
+        if (root == null) {
+            return root;
+        }
+        
+        Node curr = root;
+        Stack<Node> stack = new Stack<>();
+        Node head = null;
+        Node prev = null;
+                
+        while (curr != null || !stack.isEmpty()) {
+            if (curr != null) {
+                stack.push(curr);
+                curr = curr.left;
+                
+            } else {                
+                Node node = stack.pop();
+                
+                if (prev != null) {
+                    prev.right = node;
+                    node.left = prev;
+                } 
+                
+                if (head == null) {
+                    head = node;   
+                }
+
+                curr = node.right;
+                prev = node;
+            }
+        }
+        
+        head.left = prev;
+        prev.right = head;
+        
+        return head;        
+    }
+
