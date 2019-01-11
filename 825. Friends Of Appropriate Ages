@@ -1,0 +1,20 @@
+    public int numFriendRequests(int[] ages) {
+        int n = ages.length;
+        int[] count = new int[121];
+        for (int age : ages) {
+            ++count[age];
+        }
+        
+        int requests = 0;
+        for (int i = 1; i <= 120; ++i) {
+            for (int j = i / 2 + 8; j <= i; ++j) {
+                if (j == i) {
+                    requests += count[i] * (count[i] - 1);  // watch out
+                } else {
+                    requests += count[i] * count[j];
+                }
+            }
+        }
+        
+        return requests;
+    }
