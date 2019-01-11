@@ -1,0 +1,30 @@
+    public boolean splitArray(int[] nums) {
+        if(nums == null || nums.length < 6){
+            return false;
+        }
+        
+        int[] sum = new int[nums.length + 1];
+        sum[0] = 0;
+        for(int i = 1; i < sum.length; i++){
+            sum[i] = sum[i - 1] + nums[i - 1];
+        }
+        for(int i = 3; i < nums.length - 3; i++){
+            Set<Integer> set = new HashSet<>();
+            for(int j = 1; j < i - 1; j++){
+                if(sum[j] == sum[i] - sum[j + 1]){
+                    if(!set.contains(sum[j]))
+                    set.add(sum[j]);
+                }
+            }
+            
+            for(int k = i + 2; k < nums.length - 1; k++){
+                if(sum[k] - sum[i + 1] == sum[nums.length] - sum[k + 1]){
+                    if(set.contains(sum[k] - sum[i + 1])){
+                        return true;
+                    }
+                }
+            }
+        }
+        
+        return false;
+    }
