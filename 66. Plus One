@@ -1,9 +1,9 @@
-func plusOne(_ digits: [Int]) -> [Int] {
+    func plusOne(_ digits: [Int]) -> [Int] {
     guard digits.count > 0 else { return digits }
     
     var digits = digits
     var i = digits.count - 1
-    
+
     digits[digits.count - 1] += 1
     if digits[digits.count - 1] < 10 {
         return digits
@@ -15,8 +15,10 @@ func plusOne(_ digits: [Int]) -> [Int] {
     
     while i >= 0 && carrier > 0 {
         digits[i] += carrier
+        
         carrier = digits[i]/10
         digits[i] = digits[i]%10
+        
         i -= 1
     }
     
@@ -33,5 +35,4 @@ func plusOne(_ digits: [Int]) -> [Int] {
     } else {
         return digits
     }
-}
-
+    }
