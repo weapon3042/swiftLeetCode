@@ -1,13 +1,35 @@
-    string customSortString(string S, string T) {
-        string res = "";
-        unordered_map<char, int> m;
-        for (char c : T) ++m[c];
-        for (char c : S) {
-            res += string(m[c], c);
-            m[c] = 0;
+    func customSortString(_ s: String, _ t: String) -> String {
+                                             
+                                             
+        var map = [Character: Int](), chars = Array(s), chart = Array(t), res = ""
+        
+        guard s.count > 0, t.count > 0 else { return res }
+
+        
+        for c in chart {
+            if let count = map[c] {
+                map[c] = count + 1
+            } else {
+                map[c] = 1
+            }
         }
-        for (auto a : m) {
-            res += string(a.second, a.first);
+        
+        for c in chars {
+            if let count = map[c] {
+                for i in 0..<count {
+                    res += String(c)
+                }
+                map[c] = nil
+            }
         }
-        return res;
+        
+        for (key, value) in map {
+            for i in 0..<value {
+                res += String(key)
+            }
+        }
+        
+        return res
+
     }
+
