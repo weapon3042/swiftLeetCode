@@ -1,0 +1,41 @@
+    func maxAreaOfIsland(_ grid: [[Int]]) -> Int {
+        guard grid.count > 0, grid[0].count > 0 else { return 0 }
+        
+        var res = 0, visit = [[Bool]](repeating: [Bool](repeating: false, count: grid[0].count), count: grid.count)
+        
+        for i in 0..<grid.count {
+            for j in 0..<grid[0].count where grid[i][j] == 1 && visit[i][j] == false {
+                res = max(res, dfs(grid, i, j, &visit))
+            }
+        }
+
+        return res
+    }
+    
+    let dx = [-1, 1, 0, 0]
+    let dy = [0, 0, -1, 1]
+    
+    private func dfs(_ grid: [[Int]], _ i: Int, _ j: Int, _ visit: inout [[Bool]]) -> Int {
+        if visit[i][j] == true {
+            return 0
+        }
+        
+        var res = 1
+        
+        visit[i][j] = true
+        
+        for k in 0..<4 {
+            let x = i + dx[k]
+            let y = j + dy[k]
+            
+            if valid(grid, x, y), visit[x][y] == false, grid[x][y] == 1 {
+                res += dfs(grid, x, y, &visit)
+            }
+        }
+        
+        return res
+    }
+    
+    private func valid(_ grid: [[Int]], _ i: Int, _ j: Int) -> Bool {
+        return i >= 0 && i < grid.count && j >= 0 && j < grid[0].count
+    }
