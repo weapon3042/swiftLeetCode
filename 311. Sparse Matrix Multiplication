@@ -1,0 +1,15 @@
+    func multiply(_ a: [[Int]], _ b: [[Int]]) -> [[Int]] {
+        guard a.count > 0, b.count > 0, a[0].count > 0, b[0].count > 0 else { return [[Int]]() }
+        
+        var res = [[Int]](repeating:[Int](repeating: 0, count:b[0].count), count:a.count)
+        
+        for i in 0..<a.count {
+            for j in 0..<a[0].count where a[i][j] != 0 {
+                for m in 0..<b[0].count where b[j][m] != 0 {
+                        res[i][m] += a[i][j] * b[j][m]
+                    }
+                }
+            }
+                return res
+        }
+
