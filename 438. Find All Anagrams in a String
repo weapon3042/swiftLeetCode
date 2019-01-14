@@ -1,3 +1,46 @@
+    version 1
+        public List<Integer> findAnagrams(String s, String p) {
+        List<Integer> res = new ArrayList<>();
+        int[] sum = new int[26];
+        
+        int pl = p.length(), sl = s.length();
+        char[] schar = s.toCharArray();
+        
+        for (char c : p.toCharArray()) {
+            sum[c-'a']++;
+        }
+        
+        int start = 0, end = 0, matched = 0;
+        
+        while (end < sl) {
+            if (sum[schar[end]-'a'] >= 1) {
+                matched++;
+            }
+            
+            sum[schar[end]-'a']--;
+            end++;
+            
+            if (matched == pl) {
+                res.add(start);
+            }
+            
+            if (end-start == pl) {
+                if (sum[schar[start]-'a'] >= 0) {
+                    matched--;
+                }
+                sum[schar[start]-'a']++;
+                
+                start++;
+            }
+            
+        }
+        
+        return res;
+    }
+
+     
+     version 2
+     
      public List<Integer> findAnagrams(String s, String p) {
         if (s == null || p == null) {
             return new ArrayList<Integer>();
