@@ -1,0 +1,28 @@
+    func uniquePaths(_ m: Int, _ n: Int) -> Int {
+        guard m > 0, n > 0 else { return 0 }
+        if m==1 || n==1  {
+            return 1
+        }
+        
+        var arr = [[Int]](repeating: [Int](repeating: 0, count: n), count:m)
+        
+        for i in 0..<m {
+            arr[i][0] = 1
+        }
+        
+        for i in 0..<n {
+            arr[0][i] = 1
+        }
+        
+        arr[0][0] = 0
+        
+        for i in 1..<m {
+            for j in 1..<n {
+                arr[i][j] = arr[i-1][j] + arr[i][j-1]
+            }
+        }
+        
+        return arr[m-1][n-1]
+
+    }
+
