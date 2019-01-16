@@ -1,0 +1,26 @@
+    func countNumbersWithUniqueDigits(_ n: Int) -> Int {
+        guard n > 0 else { return 1 }
+        
+        var res = 0
+        for i in 1...n {
+            res += count(i)
+        }
+        
+        return res
+    }
+    
+    private func count(_ i: Int) -> Int {
+        if i == 0 { return 1 }
+        if i == 1 { return 10 }
+        var res = 1
+        
+        var j = 9
+        
+        while j >= 11-i {
+            res *= j
+            j -= 1
+        }
+        
+        return res * 9
+    }
+
