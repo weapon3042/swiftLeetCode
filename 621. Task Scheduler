@@ -1,15 +1,78 @@
-    public int leastInterval(char[] tasks, int n) {
-        // write your code here
-        int[] c = new int[26];
-        for(char t : tasks){
-            System.out.print(t + " ");
-            c[t - 'A']++;
-        }
-        Arrays.sort(c);
-        int i = 25;
-        while(i >= 0 && c[i] == c[25]) {
-            i--;
-        }
+    func leastInterval(_ tasks: [Character], _ n: Int) -> Int {
+        guard tasks.count > 0 else { return 0 }
+        
+        var count = [Character: Int]()
+        
+        count[Character("A")] = 0
+        count[Character("B")] = 0
 
-        return Math.max(tasks.length, (c[25] - 1) * (n + 1) + 25 - i);        
+        count[Character("C")] = 0
+
+        count[Character("D")] = 0
+
+        count[Character("E")] = 0
+
+        count[Character("F")] = 0
+
+        count[Character("G")] = 0
+
+        count[Character("H")] = 0
+
+        count[Character("I")] = 0
+
+        count[Character("J")] = 0
+
+        count[Character("K")] = 0
+
+        count[Character("L")] = 0
+        count[Character("M")] = 0
+
+        count[Character("N")] = 0
+
+        count[Character("O")] = 0
+
+        count[Character("P")] = 0
+
+        count[Character("Q")] = 0
+
+        count[Character("R")] = 0
+
+        count[Character("S")] = 0
+
+        count[Character("T")] = 0
+
+        count[Character("U")] = 0
+
+        count[Character("V")] = 0
+
+        count[Character("W")] = 0
+
+        count[Character("X")] = 0
+
+        count[Character("Y")] = 0
+
+        count[Character("Z")] = 0
+
+
+        for c in tasks {
+            if let value = count[c] {
+                count[c] = value + 1
+            } else {
+                count[c] = 1
+            }
+        }
+        
+        var i = 25
+        
+        let temp = count.values
+        let values = temp.sorted()
+        
+        while i > 0 , values[i] == values[i-1] {
+            i -= 1
+        }
+        
+        i -= 1
+        
+        return max(tasks.count, (values.last!-1) * (n+1) + 25-i)
     }
+
