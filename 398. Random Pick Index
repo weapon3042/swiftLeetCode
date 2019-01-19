@@ -1,0 +1,24 @@
+    private var map = [Int: [Int]]()
+    init(_ nums: [Int]) {
+        
+        for i in 0..<nums.count {
+            if let value = map[nums[i]] {
+                map[nums[i]]?.append(i)
+            } else {
+                map[nums[i]] = [i]
+            }
+        }
+    }
+    
+    func pick(_ target: Int) -> Int {
+        if let value = map[target] {
+            if value.count < 2 {
+                return value.first!
+            } else {
+                let index = arc4random_uniform(UInt32(value.count))
+                return value[Int(index)]
+            }
+        } else {
+            return -1
+        }
+    }
