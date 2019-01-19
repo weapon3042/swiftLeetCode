@@ -1,0 +1,29 @@
+    func rightSideView(_ root: TreeNode?) -> [Int] {
+        guard let root = root else { return [Int]() }
+        
+        var queue = [TreeNode](), res = [Int]()
+        queue.append(root)
+        
+        while !queue.isEmpty {
+            let len = queue.count
+            
+            for i in 0..<len {
+                let curr = queue.removeFirst()
+                
+                if let left = curr.left {
+                    queue.append(left)
+                }
+                
+                if let right = curr.right {
+                    queue.append(right)
+                }
+                
+                if i == len-1 {
+                    res.append(curr.val)
+                }
+            }
+        }
+        
+        return res
+
+    }
