@@ -1,0 +1,44 @@
+public class Vector2D implements Iterator<Integer> {
+
+    private List<List<Integer>> data;
+    private Iterator<Integer> it;
+    private int index = -1;
+    
+    public Vector2D(List<List<Integer>> vec2d) {
+        this.data = vec2d;
+        if (data.size() == 0) {
+            it = null;
+        } else {
+            it = data.get(0).iterator();
+            index = 0;
+        }
+    }
+
+    @Override
+    public Integer next() {
+        if (!hasNext()) {
+            return -1;
+        }
+        
+        return it.next();
+    }
+
+    @Override
+    public boolean hasNext() {
+        if (it == null) {
+            return false;
+        }
+        
+        if (!it.hasNext()) {
+            if (index < data.size()-1){
+                index++;
+                it = data.get(index).iterator();
+                return hasNext();
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+}
