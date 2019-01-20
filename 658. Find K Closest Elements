@@ -1,57 +1,63 @@
-    public List<Integer> findClosestElements(int[] A, int k, int target) {
-      int left = findLowerClosest(A, target);
-        int right = left + 1;
+    func findClosestElements(_ arr: [Int], _ k: Int, _ x: Int) -> [Int] {
+        guard arr.count > 0, k <= arr.count else { return [Int]() }
         
-        List<Integer> res = new ArrayList<>();
-        for (int i = 0; i < k; i++) {
-            if (isLeftCloser(A, target, left, right)) {
-                res.add(A[left]);
-                left--;
+        var left = 0, right = arr.count-1
+        
+        var start = -1
+        
+        while left+1<right {
+            let mid = (left+right)/2
+            
+            if arr[mid] <= x {
+                left = mid
             } else {
-                res.add(A[right]);
-                right++;
+                right = mid
             }
         }
         
-        Collections.sort(res);
-        
-        return res;
-    }
-    
-    private boolean isLeftCloser(int[] A, int target, int left, int right) {
-        if (left < 0) {
-            return false;
+        if arr[left] >= x {
+            start = left
+        } else {
+            start = right
         }
         
-        if (right >= A.length) {
-            return true;
-        }
+        var k = k, res = [Int]()
+                    
+        right = start
+        left = start - 1
         
-        if (target - A[left] != A[right] - target) {
-            return target - A[left] < A[right] - target;
-        }
-        
-        return true;
-    }
-    
-    private int findLowerClosest(int[] A, int target) {
-        // find the last element smaller than target
-        int start = 0, end = A.length - 1;
-        while (start + 1 < end) {
-            int mid = start + (end - start) / 2;
-            if (A[mid] < target) {
-                start = mid;
+        while k > 0 {
+            if valid(arr, left), valid(arr, right) {
+                if x-arr[left] < arr[right]-x {
+                    res.insert(arr[left], at:0)
+                    left -= 1
+                } else if x-arr[left] > arr[right]-x{
+                    res.append(arr[right])
+                    right += 1
+                } else {
+                    if arr[left] < arr[right] {
+                    res.insert(arr[left], at:0)
+                    left -= 1
+                    } else {
+                    res.append(arr[right])
+                    right += 1
+                    }
+                }
+            } else if valid(arr, left) {
+                    res.insert(arr[left], at:0)
+                    left -= 1
             } else {
-                end = mid;
+                    res.append(arr[right])
+                    right += 1
             }
+            
+            k -= 1
+            
         }
         
-        if (A[end] < target) {
-            return end;
-        }
-        if (A[start] < target) {
-            return start;
-        }
-        
-        return -1;
+        return res
+    }
+    
+    private func valid(_ arr: [Int], _ i: Int) -> Bool {
+        return i >= 0 && i < arr.count
     }
