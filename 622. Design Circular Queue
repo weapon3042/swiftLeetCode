@@ -1,49 +1,67 @@
 class MyCircularQueue {
-public:
+
+    class Node {
+        int val;
+        Node prev;
+        Node next;
+        
+        public Node(int val) {
+            this.prev = null;
+            this.next = null;
+            this.val = val;
+        }
+    }
+    
+    private Node head = new Node(-1);
+    private Node tail = new Node(-1);
+    private int count = 0;
+    private int capacity;
+    
     /** Initialize your data structure here. Set the size of the queue to be k. */
-    MyCircularQueue(int k) {
-        size = k; head = k - 1; tail = 0; cnt = 0;
-        data.resize(k);
+    public MyCircularQueue(int k) {
+        this.head.next = tail;
+        this.tail.prev = head;
+        this.capacity = k;
     }
     
     /** Insert an element into the circular queue. Return true if the operation is successful. */
-    bool enQueue(int value) {
-        if (isFull()) return false;
-        data[tail] = value;
-        tail = (tail + 1) % size;
-        ++cnt;
+    public boolean enQueue(int value) {
+        if (isFull()) { return false; }
+        Node node = new Node(value);
+        node.prev = tail.prev;
+        node.next = tail;
+        tail.prev.next = node;
+        tail.prev = node;
+        count++;
         return true;
     }
     
     /** Delete an element from the circular queue. Return true if the operation is successful. */
-    bool deQueue() {
-        if (isEmpty()) return false;
-        head = (head + 1) % size;
-        --cnt;
+    public boolean deQueue() {
+        if (isEmpty()) { return false; }
+        head.next.next.prev = head;
+        head.next = head.next.next;
+        count--;
         return true;
     }
     
     /** Get the front item from the queue. */
-    int Front() {
-        return isEmpty() ? -1 : data[(head + 1) % size];
+    public int Front() {
+        return head.next.val;
     }
     
     /** Get the last item from the queue. */
-    int Rear() {
-        return isEmpty() ? -1 : data[(tail - 1 + size) % size];
+    public int Rear() {
+        return tail.prev.val;
     }
     
     /** Checks whether the circular queue is empty or not. */
-    bool isEmpty() {
-        return cnt == 0;
+    public boolean isEmpty() {
+        return count == 0;
     }
     
     /** Checks whether the circular queue is full or not. */
-    bool isFull() {
-        return cnt == size;
+    public boolean isFull() {
+        return count == capacity;
     }
-    
-private:
-    vector<int> data;
-    int size, cnt, head, tail;
-};
+}
