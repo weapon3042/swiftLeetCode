@@ -1,40 +1,37 @@
-    int[] deltaX = new int[] {0, 0, -1, 1};
-    int[] deltaY = new int[] {1, -1, 0, 0};
+    func hasPath(_ maze: [[Int]], _ start: [Int], _ destination: [Int]) -> Bool {
+        guard maze.count > 0, maze[0].count > 0 else { return false }
+        
+        var visit = [[Bool]](repeating: [Bool](repeating: false, count: maze[0].count), count: maze.count)
+        
+        return dfs(maze, (start[0], start[1]), (destination[0], destination[1]), &visit) 
+    }
+        
+    let dx = [-1, 1, 0, 0]
+    let dy = [0, 0, -1, 1]
     
-    public boolean hasPath(int[][] maze, int[] start, int[] destination) {
-        if(maze == null || maze.length == 0 || maze[0].length == 0 || start == null || start.length == 0 || destination == null || destination.length == 0){
-            return false;
-        }
+    private func dfs(_ maze: [[Int]], _ start: (Int, Int), _ end: (Int, Int), _ visit: inout [[Bool]]) -> Bool {
+        if start.0 == end.0, start.1 == end.1 { return true }
         
-        Queue<int[]> queue = new LinkedList<>();
-        boolean[][] visited = new boolean[maze.length][maze[0].length];
-        queue.offer(start);
-        visited[start[0]][start[1]] = true;
+        visit[start.0][start.1] = true
         
-        while(!queue.isEmpty()){
-            int[] curPoint = queue.poll();
-            int x = curPoint[0], y = curPoint[1];
-            for(int j = 0; j < 4; j++){
-                int xx = x;
-                int yy = y;
-                
-                while(isValid(xx + deltaX[j], yy + deltaY[j], maze)){
-                    xx += deltaX[j];
-                    yy += deltaY[j];
-                }
-                if(xx == destination[0] && yy == destination[1]){
-                    return true;
-                }
-                if(!visited[xx][yy]){
-                    queue.offer(new int[]{xx, yy});
-                    visited[xx][yy] = true;
-                }
+        for k in 0..<4 {
+            var i = start.0
+            var j = start.1
+            
+            while valid(maze, (i + dx[k], j + dy[k])), maze[i+dx[k]][j+dy[k]] != 1 {
+                i += dx[k]
+                j += dy[k]
             }
+            
+            if visit[i][j] == false {
+                if dfs(maze, (i, j), end, &visit) { return true }
+            }
+            
         }
-        return false;
+        
+        return false
     }
     
-    private boolean isValid(int x, int y, int[][] maze){
-        return x >= 0 && x < maze.length && y >= 0 && y < maze[0].length && maze[x][y] == 0;
+    private func valid(_ maze: [[Int]], _ p: (Int, Int)) -> Bool {
+        return p.0 >= 0 && p.0 < maze.count && p.1 >= 0 && p.1 < maze[0].count
     }
-
