@@ -1,3 +1,4 @@
+version 1
 func numDecodings(_ s: String) -> Int {
     guard  s.count > 0 else {
         return 0
@@ -29,3 +30,39 @@ func numDecodings(_ s: String) -> Int {
     
     return count.last!
 }
+
+version 2
+    public int numDecodings(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+        
+        int[] num = new int[s.length()+1];
+        num[0] = 1;
+        
+        for (int i=0; i<s.length(); i++) {
+            if (s.charAt(i) == '0') {
+                if (i==0 || (s.charAt(i-1) != '1' && s.charAt(i-1) != '2')) {
+                    return 0;
+                } else {
+                    num[i+1] = num[i-1]; 
+                }
+            } else if (s.charAt(i) >= '1' && s.charAt(i) <= '6') {
+                num[i+1] = num[i];
+                
+                if (i > 0 && (s.charAt(i-1) == '1' || s.charAt(i-1) == '2')) {
+                    num[i+1] += num[i-1];
+                }
+            } else if (s.charAt(i) > '6' && s.charAt(i) <= '9') {
+                num[i+1] = num[i];  
+                
+                if (i > 0 && s.charAt(i-1) == '1') {
+                    num[i+1] += num[i-1];
+                }
+            } else {
+                return 0;
+            }
+        }
+        
+        return num[num.length-1];
+    }
