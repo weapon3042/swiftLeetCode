@@ -1,0 +1,63 @@
+    public int maxSubarraySumCircular(int[] A)
+    { 
+        if (A == null || A.length == 0) {
+            return -1;
+        }
+        
+        int vmax = -1000000000, sum = sum(A), vmin = sumMin(A);
+        vmax = Math.max(vmax, sumMax(A));
+        
+        if (sum != vmin)
+        {
+            vmax =Math. max(vmax, sum - vmin);
+        }
+        return vmax;
+    }
+    
+    int sum(int arr[]) {
+        int sum = 0;
+        
+        for (int a : arr) {
+            sum += a;
+        }
+        
+        return sum;
+    }
+         
+    int sumMax(int arr[])  { 
+        if (arr == null || arr.length == 0) {
+            return -1;
+        }
+        
+        int sum = 0;
+        int minV = 0;
+        
+        int res = Integer.MIN_VALUE;
+        
+        for (int i=0; i<arr.length; i++) {
+            sum += arr[i];
+            res = Math.max(res, sum-minV);
+            minV = Math.min(minV, sum);
+        }
+        
+        return res;
+    } 
+    
+    int sumMin(int arr[])  { 
+        if (arr == null || arr.length == 0) {
+            return -1;
+        }
+        
+        int sum = 0;
+        int maxV = 0;
+        
+        int res = Integer.MAX_VALUE;
+        
+        for (int i=0; i<arr.length; i++) {
+            sum += arr[i];
+            res = Math.min(res, sum-maxV);
+            maxV = Math.max(maxV, sum);
+        }
+        
+        return res;
+    } 
